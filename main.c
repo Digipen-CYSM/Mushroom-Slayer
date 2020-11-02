@@ -40,6 +40,7 @@ void game_exit(void)
 // CP_Engine_Run() is the core function that starts the simulation
 int main(void)
 {
+	CP_System_SetWindowSize(1700, 900);
 	CP_Engine_SetNextGameState(game_init, game_update, game_exit);
 	CP_Engine_Run();
 	return 0;
