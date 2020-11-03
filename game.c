@@ -1,6 +1,6 @@
 #include "cprocessing.h"
 #include "game.h"
-#include "card.h"
+#include "Cards.h"
 //global variable
 float pHealth = 300, eHealth = 300;
 CardType hand[5];

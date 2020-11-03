@@ -8,4 +8,4 @@ typedef struct CardType {
 
 CardType attackCard(void);
 CardType defenceCard(void);
-CardType healCard(void)
+CardType healCard(void);
