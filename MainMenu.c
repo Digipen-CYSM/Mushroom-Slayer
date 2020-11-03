@@ -1,5 +1,5 @@
 #include "cprocessing.h"
-
+#include "game.h"
 void main_menu_init(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -21,7 +21,7 @@ void main_menu_update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_Terminate();
+				CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
 			}
 		}
 	}

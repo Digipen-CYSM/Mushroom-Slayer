@@ -1,2 +1,4 @@
 C:\Users\Marcus\source\repos\Digipen-CYSM\Mushroom-Slayer\x64\Debug\Mushroom Slayer.exe
 C:\Users\Marcus\source\repos\Digipen-CYSM\Mushroom-Slayer\x64\Debug\Mushroom Slayer.pdb
+C:\Users\sh_ib\OneDrive\Desktop\game project\Mushroom-Slayer\x64\Debug\Mushroom Slayer.exe
+C:\Users\sh_ib\OneDrive\Desktop\game project\Mushroom-Slayer\x64\Debug\Mushroom Slayer.pdb
