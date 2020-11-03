@@ -17,6 +17,7 @@
 
 int main(void)
 {
+	//test
 	CP_System_SetWindowSize(1700, 900);
 	CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
 	CP_Engine_Run();
