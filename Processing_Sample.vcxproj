@@ -191,11 +191,13 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cards.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="MainMenu.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cards.h" />
     <ClInclude Include="MainMenu.h" />
   </ItemGroup>
   <ItemGroup>
