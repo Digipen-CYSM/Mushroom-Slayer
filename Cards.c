@@ -1,12 +1,6 @@
 #include "cprocessing.h"
 #include <stdio.h>
-
-typedef struct CardType {
-	char type;
-	int ret;
-	int mana;
-} CardType;
-
+#include "Cards.h"
 CardType attackCard(void) {
 	CardType cards;
 	cards.type = 'a';
@@ -27,7 +21,7 @@ CardType defenceCard(void) {
 
 CardType healCard(void) {
 	CardType cards;
-	cards.type = 'h';
+	cards.type = 'd';
 	cards.ret = 3;
 	//cards.ret = CP_Random_RangeInt(1, 3)
 	cards.mana = 1;
