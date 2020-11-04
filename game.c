@@ -8,7 +8,6 @@ float pHealth = 300, eHealth = 300;
 CardType hand[5];
 CardType deck[10];
 int handRng[5];
-char imgSrc[100] = "Assets/cards/attackBase.png";
 
 
 void Game_Init(void)
@@ -33,7 +32,7 @@ void Game_Init(void)
 		}
 		
 	}
-	
+	//draw 5 random card from deck
 	for (int i = 0; i < 5; i++) {
 		int rCheck = 0;
 		int oneToTen;
@@ -50,6 +49,7 @@ void Game_Init(void)
 		};
 		handRng[i] = oneToTen;
 		hand[i] = deck[oneToTen];
+
 	}
 	
 }
@@ -59,20 +59,9 @@ void Game_Update(void)
 
 	float cardWidth = 200;
 	for (int i = 0; i < 5; i++) {
-		if (hand[i].type == 'a') {
-			strcpy_s(imgSrc,sizeof(imgSrc), "Assets/cards/attackBase.png");
-		}
-		else if (hand[i].type == 'd') {
-			strcpy_s(imgSrc, sizeof(imgSrc), "Assets/cards/defenceBase.png");
-		}
-		else {
-			strcpy_s(imgSrc, sizeof(imgSrc), "Assets/cards/healBase.png");
-		}
-		CP_Image_Draw(CP_Image_Load(imgSrc), cardWidth, 700, 200, 300, 255); //card base
-		//if (deck[i].mana == 2) {
-		//	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), cardWidth, 700, 30, 30, 255); //card value
-		//}
-		
+		CP_Image_Draw(CP_Image_Load(hand[i].baseSrc), cardWidth, 700, 200, 300, 255); //card base
+		CP_Image_Draw(CP_Image_Load(hand[i].valSrc), cardWidth, 700, 30, 30, 255); //card value
+		CP_Image_Draw(CP_Image_Load(hand[i].manaSrc), cardWidth, 650, 30, 30, 255); //card mana
 		cardWidth = cardWidth + 300;
 	}
 
