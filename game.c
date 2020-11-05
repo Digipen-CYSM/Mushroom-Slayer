@@ -8,17 +8,14 @@ float pHealth = 300, eHealth = 300;
 CardType hand[5];
 CardType deck[10];
 int handRng[5];
-
+int handCheck[5] = {0,0,0,0,0};
+int mana = 3;
+CP_Image handU[5][3];
+CP_Image handS[5][3];
 
 void Game_Init(void)
 {
-	CP_Settings_Background(CP_Color_Create(255, 255, 255, 255));
-	//enemy image
-	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 1300, 400, 200, 300, 255);
-	//player image
-	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 400, 400, 200, 300, 255);
-	//player health
-	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, 300, 30, 255);
+	
 	//generate cards into deck
 	for (int i = 0; i < 10; i++) {
 		if(i<4){
@@ -49,21 +46,25 @@ void Game_Init(void)
 		};
 		handRng[i] = oneToTen;
 		hand[i] = deck[oneToTen];
-
+		handS[i][0] = CP_Image_Load(hand[i].baseSrc);
+		handS[i][1] = CP_Image_Load(hand[i].baseSrc);
+		handS[i][2] = CP_Image_Load(hand[i].baseSrc);
+		handU[i][0] = CP_Image_Load(hand[i].baseSrc);
+		handU[i][1] = CP_Image_Load(hand[i].baseSrc);
+		handU[i][2] = CP_Image_Load(hand[i].baseSrc);
 	}
+
 	
 }
 
+
 void Game_Update(void)
 {	
-
-	float cardWidth = 200;
-	for (int i = 0; i < 5; i++) {
-		CP_Image_Draw(CP_Image_Load(hand[i].baseSrc), cardWidth, 700, 200, 300, 255); //card base
-		CP_Image_Draw(CP_Image_Load(hand[i].valSrc), cardWidth, 700, 30, 30, 255); //card value
-		CP_Image_Draw(CP_Image_Load(hand[i].manaSrc), cardWidth, 650, 30, 30, 255); //card mana
-		cardWidth = cardWidth + 300;
-	}
+	CP_Settings_Background(CP_Color_Create(255, 255, 255, 255));
+	//enemy image
+	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 1300, 400, 200, 300, 255);
+	//player image
+	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 400, 400, 200, 300, 255);
 
 	//player health and mana
 	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
@@ -72,6 +73,34 @@ void Game_Update(void)
 	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 250, eHealth, 30, 255);
 	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 270, eHealth, 30, 255);
 
+
+	float cardWidth = 200;
+	int selectedCount = 0;
+	for (int i = 0; i < 5; i++) {
+		if (handCheck[i] == 1) {
+			selectedCount += 1;
+		}
+	}
+	if (selectedCount > 0) {
+		CP_Image_Draw(CP_Image_Load("Assets/confirmButton1.png"), 850, 425, 200, 50, 255); //card base
+
+	}
+	float cardWidthS = 350;
+	for (int i = 0; i < 5; i++) {
+		if (handCheck[i] == 1) {
+			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
+			CP_Image_Draw(handS[i][0], cardWidthS, 300, 200, 300, 255); //card base
+			CP_Image_Draw(handS[i][1], cardWidthS, 300, 30, 30, 255); //card value
+			CP_Image_Draw(handS[i][2], cardWidthS, 250, 30, 30, 255); //card mana
+		}
+		else {
+			CP_Image_Draw(handU[i][0], cardWidth, 700, 200, 300, 255); //card base
+			CP_Image_Draw(handU[i][1], cardWidth, 700, 30, 30, 255); //card value
+			CP_Image_Draw(handU[i][2], cardWidth, 650, 30, 30, 255); //card mana
+		}
+		cardWidth = cardWidth + 300;
+	}
+
 	//click on card 1
 	if (CP_Input_GetMouseX() >= 100 && CP_Input_GetMouseX() <= 300)
 	{
@@ -79,7 +108,17 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_Terminate();
+				if (hand[0].mana < mana) {				
+					if (handCheck[0] == 0) {
+						handCheck[0] = 1;
+						mana = mana - hand[0].mana;
+					}
+					else {
+						handCheck[0] = 1;
+						mana = mana + hand[0].mana;
+					}
+					
+				}
 			}
 		}
 	}
@@ -90,7 +129,15 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_Terminate();
+				if (handCheck[1] == 0) {
+					handCheck[1] = 1;
+					mana = mana - hand[1].mana;
+				}
+				else {
+					handCheck[1] = 1;
+					mana = mana + hand[1].mana;
+				}
+				
 			}
 		}
 	}
@@ -101,7 +148,15 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_Terminate();
+				if (handCheck[2] == 0) {
+					handCheck[2] = 1;
+					mana = mana - hand[2].mana;
+				}
+				else {
+					handCheck[2] = 1;
+					mana = mana + hand[2].mana;
+				}
+				
 			}
 		}
 	}
@@ -112,7 +167,15 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_Terminate();
+				if (handCheck[3] == 0) {
+					handCheck[3] = 1;
+					mana = mana - hand[3].mana;
+				}
+				else {
+					handCheck[3] = 1;
+					mana = mana + hand[3].mana;
+				}
+				
 			}
 		}
 	}
@@ -123,12 +186,28 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_Terminate();
+				if (handCheck[4] == 0) {
+					handCheck[4] = 1;
+					mana = mana - hand[4].mana;
+				}
+				else {
+					handCheck[4] = 1;
+					mana = mana + hand[4].mana;
+				}
+				
 			}
 		}
 	}
 	
-
+	if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950)
+	{
+		if (CP_Input_GetMouseY() >= 400 && CP_Input_GetMouseY() <= 450)
+		{
+			if (CP_Input_MouseClicked()) {
+				
+			}
+		}
+	}
 
 }
 
