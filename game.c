@@ -9,7 +9,8 @@ CardType hand[5];
 CardType deck[10];
 int handRng[5];
 int handCheck[5] = {0,0,0,0,0};
-int mana = 3;
+int selectedCheck[5] = { 0,0,0,0,0 };
+int mana = 5;
 CP_Image handU[5][3];
 CP_Image handS[5][3];
 
@@ -76,16 +77,27 @@ void Game_Update(void)
 
 	float cardWidth = 200;
 	int selectedCount = 0;
+	float cardWidthS = 350;
+	//get total number of selected cards
 	for (int i = 0; i < 5; i++) {
 		if (handCheck[i] == 1) {
 			selectedCount += 1;
 		}
 	}
+	//show confirm button 
 	if (selectedCount > 0) {
-		CP_Image_Draw(CP_Image_Load("Assets/confirmButton1.png"), 850, 425, 200, 50, 255); //card base
+		CP_Image_Draw(CP_Image_Load("Assets/confirmButton1.png"), 850, 425, 200, 50, 255);
 
 	}
-	float cardWidthS = 350;
+	//know the index of selected card
+	int sCheck = 0;
+	for (int i = 0; i < 5; i++) {
+		if (handCheck[i] == 1) {
+			selectedCheck[sCheck] = i;
+			sCheck += 1;
+		}
+	}
+	//draw card image based on selected and unselected
 	for (int i = 0; i < 5; i++) {
 		if (handCheck[i] == 1) {
 			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
@@ -101,6 +113,28 @@ void Game_Update(void)
 		cardWidth = cardWidth + 300;
 	}
 
+	cardWidthS = 350; //redeclare card width selected
+
+	//click on selected card and bring down
+	if (selectedCount > 0) {
+		for (int i = 0; i < selectedCount; i++) {
+			if (CP_Input_GetMouseX() >= 1000 / (float)(selectedCount + 1) + cardWidthS - 100 && CP_Input_GetMouseX() <= 1000 / (float)(selectedCount + 1) + cardWidthS + 100) {
+				if (CP_Input_GetMouseY() >= 150 && CP_Input_GetMouseY() <= 450) {
+					if (CP_Input_MouseClicked()) {						
+						//mana, selected count, handCheck
+						mana += hand[selectedCheck[i]].mana;
+						selectedCount -= 1;
+						handCheck[selectedCheck[i]] = 0;
+					}
+				}
+			}
+			
+			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
+		}
+	}
+	
+	
+
 	//click on card 1
 	if (CP_Input_GetMouseX() >= 100 && CP_Input_GetMouseX() <= 300)
 	{
@@ -111,12 +145,9 @@ void Game_Update(void)
 				if (hand[0].mana < mana) {				
 					if (handCheck[0] == 0) {
 						handCheck[0] = 1;
-						mana = mana - hand[0].mana;
+						mana -= hand[0].mana;
 					}
-					else {
-						handCheck[0] = 1;
-						mana = mana + hand[0].mana;
-					}
+					
 					
 				}
 			}
@@ -129,13 +160,11 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (handCheck[1] == 0) {
-					handCheck[1] = 1;
-					mana = mana - hand[1].mana;
-				}
-				else {
-					handCheck[1] = 1;
-					mana = mana + hand[1].mana;
+				if (hand[1].mana < mana) {
+					if (handCheck[1] == 0) {
+						handCheck[1] = 1;
+						mana -= hand[1].mana;
+					}
 				}
 				
 			}
@@ -148,15 +177,13 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (handCheck[2] == 0) {
-					handCheck[2] = 1;
-					mana = mana - hand[2].mana;
+				if (hand[2].mana < mana) {
+					if (handCheck[2] == 0) {
+						handCheck[2] = 1;
+						mana -= hand[2].mana;
+					}
+
 				}
-				else {
-					handCheck[2] = 1;
-					mana = mana + hand[2].mana;
-				}
-				
 			}
 		}
 	}
@@ -167,13 +194,11 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (handCheck[3] == 0) {
-					handCheck[3] = 1;
-					mana = mana - hand[3].mana;
-				}
-				else {
-					handCheck[3] = 1;
-					mana = mana + hand[3].mana;
+				if (hand[3].mana < mana) {
+					if (handCheck[3] == 0) {
+						handCheck[3] = 1;
+						mana -= hand[3].mana;
+					}
 				}
 				
 			}
@@ -186,15 +211,13 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (handCheck[4] == 0) {
-					handCheck[4] = 1;
-					mana = mana - hand[4].mana;
+				if (hand[4].mana < mana) {
+					if (handCheck[4] == 0) {
+						handCheck[4] = 1;
+						mana -= hand[4].mana;
+					}
+
 				}
-				else {
-					handCheck[4] = 1;
-					mana = mana + hand[4].mana;
-				}
-				
 			}
 		}
 	}
