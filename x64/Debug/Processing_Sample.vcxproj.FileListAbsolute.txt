@@ -4,3 +4,5 @@ C:\Users\sh_ib\OneDrive\Desktop\game project\Mushroom-Slayer\x64\Debug\Mushroom 
 C:\Users\sh_ib\OneDrive\Desktop\game project\Mushroom-Slayer\x64\Debug\Mushroom Slayer.pdb
 D:\GitHub\SIT-GAM100\Mushroom-Slayer\x64\Debug\Mushroom Slayer.exe
 D:\GitHub\SIT-GAM100\Mushroom-Slayer\x64\Debug\Mushroom Slayer.pdb
+C:\Users\Marcus\Documents\GitHub\Mushroom-Slayer\x64\Debug\Mushroom Slayer.exe
+C:\Users\Marcus\Documents\GitHub\Mushroom-Slayer\x64\Debug\Mushroom Slayer.pdb

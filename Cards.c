@@ -27,7 +27,7 @@ CardType defenceCard(void) {
 
 CardType healCard(void) {
 	CardType cards;
-	cards.type = 'd';
+	cards.type = 'h';
 	cards.ret = 3;
 	//cards.ret = CP_Random_RangeInt(1, 3)
 	cards.mana = 1;

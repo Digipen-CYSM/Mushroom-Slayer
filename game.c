@@ -86,8 +86,44 @@ void Game_Update(void)
 	}
 	//show confirm button 
 	if (selectedCount > 0) {
-		CP_Image_Draw(CP_Image_Load("Assets/confirmButton1.png"), 850, 425, 200, 50, 255);
+		CP_Image_Draw(CP_Image_Load("Assets/confirmButton1.png"), 850, 100, 200, 50, 255);
 
+	}
+	//Confirm button
+	if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950)
+	{
+		if (CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125)
+		{
+			if (CP_Input_MouseClicked())
+			{
+				for (int i = 0; i < 5; i++) {
+					if (handCheck[i] == 1 && hand[i].type == 'a') {
+						eHealth = eHealth - (50 * selectedCount);
+						pHealth = pHealth - 50;
+						CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 250, eHealth, 30, 255);
+						CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
+					}
+					if (handCheck[i] == 1 && hand[i].type == 'd') {
+						pHealth = pHealth - 10;
+						CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
+					}
+					if (handCheck[i] == 1 && hand[i].type == 'h') {
+						pHealth = pHealth - 50;
+						pHealth = pHealth + 30;
+						if (pHealth >= 300) {
+							pHealth = 300;
+						}
+						CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
+					}
+				}
+				for (int i = 0; i < 5; i++) {
+					mana += hand[selectedCheck[i]].mana;
+					selectedCount -= 1;
+					handCheck[selectedCheck[i]] = 0;
+					cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
+				}
+			}
+		}
 	}
 	//know the index of selected card
 	int sCheck = 0;
@@ -231,7 +267,6 @@ void Game_Update(void)
 			}
 		}
 	}
-
 }
 
 void Game_Exit(void) {
