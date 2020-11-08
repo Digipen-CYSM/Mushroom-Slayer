@@ -12,6 +12,7 @@ int handCheck[5] = {0,0,0,0,0};
 int selectedCheck[5] = { 0,0,0,0,0 };
 char background;
 int mana = 5;
+int oneToTen;
 char manaStr2[10];
 CP_Image handU[5][3];
 CP_Image handS[5][3];
