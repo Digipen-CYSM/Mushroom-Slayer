@@ -48,11 +48,11 @@ void Game_Init(void)
 		handRng[i] = oneToTen;
 		hand[i] = deck[oneToTen];
 		handS[i][0] = CP_Image_Load(hand[i].baseSrc);
-		handS[i][1] = CP_Image_Load(hand[i].baseSrc);
-		handS[i][2] = CP_Image_Load(hand[i].baseSrc);
+		handS[i][1] = CP_Image_Load(hand[i].valSrc);
+		handS[i][2] = CP_Image_Load(hand[i].manaSrc);
 		handU[i][0] = CP_Image_Load(hand[i].baseSrc);
-		handU[i][1] = CP_Image_Load(hand[i].baseSrc);
-		handU[i][2] = CP_Image_Load(hand[i].baseSrc);
+		handU[i][1] = CP_Image_Load(hand[i].valSrc);
+		handU[i][2] = CP_Image_Load(hand[i].manaSrc);
 	}
 
 	
@@ -61,7 +61,8 @@ void Game_Init(void)
 
 void Game_Update(void)
 {	
-	CP_Settings_Background(CP_Color_Create(255, 255, 255, 255));
+	//CP_Settings_Background(CP_Color_Create(255, 255, 255, 255));
+	CP_Image_Draw(CP_Image_Load("Assets/BG/Village BG/Village BG1.png"), 850, 450, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 	//enemy image
 	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 1300, 400, 200, 300, 255);
 	//player image
@@ -138,13 +139,13 @@ void Game_Update(void)
 		if (handCheck[i] == 1) {
 			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
 			CP_Image_Draw(handS[i][0], cardWidthS, 300, 200, 300, 255); //card base
-			CP_Image_Draw(handS[i][1], cardWidthS, 300, 30, 30, 255); //card value
-			CP_Image_Draw(handS[i][2], cardWidthS, 250, 30, 30, 255); //card mana
+			CP_Image_Draw(handS[i][1], cardWidthS, 407, 170, 80, 255); //card value
+			CP_Image_Draw(handS[i][2], cardWidthS - 67, 170, 41, 23, 255); //card mana
 		}
 		else {
 			CP_Image_Draw(handU[i][0], cardWidth, 700, 200, 300, 255); //card base
-			CP_Image_Draw(handU[i][1], cardWidth, 700, 30, 30, 255); //card value
-			CP_Image_Draw(handU[i][2], cardWidth, 650, 30, 30, 255); //card mana
+			CP_Image_Draw(handU[i][1], cardWidth, 807, 170, 80, 255); //card value
+			CP_Image_Draw(handU[i][2], cardWidth - 67, 570, 41, 23, 255); //card mana
 		}
 		cardWidth = cardWidth + 300;
 	}
