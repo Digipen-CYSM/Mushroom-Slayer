@@ -36,7 +36,7 @@ void Game_Init(void)
 	//draw 5 random card from deck
 	for (int i = 0; i < 5; i++) {
 		int rCheck = 0;
-		int oneToTen;
+		
 		oneToTen = CP_Random_RangeInt(0, 9);
 		while (rCheck == 1) {			
 			rCheck = 0;					
@@ -144,9 +144,20 @@ void Game_Update(void)
 				for (int i = 0; i < 5; i++) {
 					mana += hand[selectedCheck[i]].mana;
 					selectedCount -= 1;
+					oneToTen = CP_Random_RangeInt(0, 9);
+					if (handCheck[selectedCheck[i]] == 1) {
+						hand[selectedCheck[i]] = deck[oneToTen];
+						handS[selectedCheck[i]][0] = CP_Image_Load(hand[selectedCheck[i]].baseSrc);
+						handS[selectedCheck[i]][1] = CP_Image_Load(hand[selectedCheck[i]].valSrc);
+						handS[selectedCheck[i]][2] = CP_Image_Load(hand[selectedCheck[i]].manaSrc);
+						handU[selectedCheck[i]][0] = CP_Image_Load(hand[selectedCheck[i]].baseSrc);
+						handU[selectedCheck[i]][1] = CP_Image_Load(hand[selectedCheck[i]].valSrc);
+						handU[selectedCheck[i]][2] = CP_Image_Load(hand[selectedCheck[i]].manaSrc);
+					}
 					handCheck[selectedCheck[i]] = 0;
 					cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
 				}
+				
 			}
 		}
 	}
