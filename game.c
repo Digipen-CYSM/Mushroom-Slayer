@@ -10,6 +10,7 @@ CardType deck[10];
 int handRng[5];
 int handCheck[5] = {0,0,0,0,0};
 int selectedCheck[5] = { 0,0,0,0,0 };
+char background;
 int mana = 5;
 CP_Image handU[5][3];
 CP_Image handS[5][3];
@@ -54,42 +55,43 @@ void Game_Init(void)
 		handU[i][1] = CP_Image_Load(hand[i].valSrc);
 		handU[i][2] = CP_Image_Load(hand[i].manaSrc);
 	}
-
-	
 }
 
 
 void Game_Update(void)
 {	
-	//CP_Settings_Background(CP_Color_Create(255, 255, 255, 255));
+	//background animation
 	CP_Image_Draw(CP_Image_Load("Assets/BG/Village BG/Village BG1.png"), 850, 450, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
+	
 	//enemy image
 	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 1300, 400, 200, 300, 255);
-	//player image
-	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 400, 400, 200, 300, 255);
-
-	//player health and mana
-	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
-	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 270, pHealth, 30, 255);
 	//enemy health and mana
 	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 250, eHealth, 30, 255);
 	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 270, eHealth, 30, 255);
-
-
+	
+	//player image
+	CP_Image_Draw(CP_Image_Load("Assets/character/Character.png"), 400, 400, 200, 300, 255);
+	//player health and mana
+	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
+	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 270, pHealth, 30, 255);
+	
 	float cardWidth = 200;
 	int selectedCount = 0;
 	float cardWidthS = 350;
+
 	//get total number of selected cards
 	for (int i = 0; i < 5; i++) {
 		if (handCheck[i] == 1) {
 			selectedCount += 1;
 		}
 	}
+
 	//show confirm button 
 	if (selectedCount > 0) {
 		CP_Image_Draw(CP_Image_Load("Assets/confirmButton1.png"), 850, 100, 200, 50, 255);
 
 	}
+
 	//Confirm button
 	if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950)
 	{
@@ -190,6 +192,7 @@ void Game_Update(void)
 			}
 		}
 	}
+
 	//click on card 2
 	if (CP_Input_GetMouseX() >= 400 && CP_Input_GetMouseX() <= 600)
 	{
@@ -207,6 +210,7 @@ void Game_Update(void)
 			}
 		}
 	}
+
 	//click on card 3
 	if (CP_Input_GetMouseX() >= 700 && CP_Input_GetMouseX() <= 900)
 	{
@@ -224,6 +228,7 @@ void Game_Update(void)
 			}
 		}
 	}
+
 	//click on card 4
 	if (CP_Input_GetMouseX() >= 1000 && CP_Input_GetMouseX() <= 1200)
 	{
