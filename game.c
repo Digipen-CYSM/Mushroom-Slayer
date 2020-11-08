@@ -12,9 +12,10 @@ int handCheck[5] = {0,0,0,0,0};
 int selectedCheck[5] = { 0,0,0,0,0 };
 char background;
 int mana = 5;
+char manaStr2[10];
 CP_Image handU[5][3];
 CP_Image handS[5][3];
-int oneToTen;
+CP_Image manaSrc[10];
 
 void Game_Init(void)
 {
@@ -56,6 +57,19 @@ void Game_Init(void)
 		handU[i][1] = CP_Image_Load(hand[i].valSrc);
 		handU[i][2] = CP_Image_Load(hand[i].manaSrc);
 	}
+
+	//load mana bar from player
+	for (int i = 0; i < 10; i++) {
+		char str[100] = "Assets/manaBar/mana";
+		int manaStr = 48+i;
+		manaStr2[0] = (char)manaStr;
+		strcat_s(str, sizeof(str), manaStr2);
+		strcat_s(str, sizeof(str), ".png");
+
+		manaSrc[i] = CP_Image_Load(str);
+	}
+	
+
 }
 
 
@@ -68,13 +82,20 @@ void Game_Update(void)
 	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 1300, 400, 200, 300, 255);
 	//enemy health and mana
 	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 250, eHealth, 30, 255);
-	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 270, eHealth, 30, 255);
+	//CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 270, eHealth, 30, 255);
 	
 	//player image
 	CP_Image_Draw(CP_Image_Load("Assets/character/Character.png"), 400, 400, 200, 300, 255);
+
+	
+	//calculate mana
+
+	//strcpy_s(manaSrc, sizeof(manaSrc), "Asset/manaBar/mana");
+
+
 	//player health and mana
 	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
-	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 270, pHealth, 30, 255);
+	CP_Image_Draw(manaSrc[mana], 50, 500, 30, 300, 255);
 	
 	float cardWidth = 500;
 	int selectedCount = 0;
@@ -193,7 +214,7 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (hand[0].mana < mana) {				
+				if (hand[0].mana <= mana) {				
 					if (handCheck[0] == 0) {
 						handCheck[0] = 1;
 						mana -= hand[0].mana;
@@ -212,7 +233,7 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (hand[1].mana < mana) {
+				if (hand[1].mana <= mana) {
 					if (handCheck[1] == 0) {
 						handCheck[1] = 1;
 						mana -= hand[1].mana;
@@ -230,7 +251,7 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (hand[2].mana < mana) {
+				if (hand[2].mana <= mana) {
 					if (handCheck[2] == 0) {
 						handCheck[2] = 1;
 						mana -= hand[2].mana;
@@ -248,7 +269,7 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (hand[3].mana < mana) {
+				if (hand[3].mana <= mana) {
 					if (handCheck[3] == 0) {
 						handCheck[3] = 1;
 						mana -= hand[3].mana;
@@ -266,7 +287,7 @@ void Game_Update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				if (hand[4].mana < mana) {
+				if (hand[4].mana <= mana) {
 					if (handCheck[4] == 0) {
 						handCheck[4] = 1;
 						mana -= hand[4].mana;
