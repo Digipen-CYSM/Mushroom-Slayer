@@ -16,7 +16,7 @@ char manaStr2[10];
 CP_Image handU[5][3];
 CP_Image handS[5][3];
 CP_Image manaSrc[10];
-
+int oneToTen;
 void Game_Init(void)
 {
 	
@@ -79,13 +79,13 @@ void Game_Update(void)
 	CP_Image_Draw(CP_Image_Load("Assets/BG/Village BG/Village BG1.png"), 850, 450, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 	
 	//enemy image
-	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 1300, 400, 200, 300, 255);
+	CP_Image_Draw(CP_Image_Load("Assets/enemy/ms1.png"), 1300, 355, 250, 300, 255);
 	//enemy health and mana
-	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 250, eHealth, 30, 255);
+	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 220, eHealth, 30, 255);
 	//CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 270, eHealth, 30, 255);
 	
 	//player image
-	CP_Image_Draw(CP_Image_Load("Assets/character/Character.png"), 400, 400, 200, 300, 255);
+	CP_Image_Draw(CP_Image_Load("Assets/character/Character.png"), 400, 338, 200, 300, 255);
 
 	
 	//calculate mana
@@ -94,8 +94,8 @@ void Game_Update(void)
 
 
 	//player health and mana
-	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 250, pHealth, 30, 255);
-	CP_Image_Draw(manaSrc[mana], 50, 500, 30, 300, 255);
+	CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 400, 210, pHealth, 30, 255);
+	CP_Image_Draw(manaSrc[mana], 50, 500, 70, 500, 255);
 	
 	float cardWidth = 200;
 	int selectedCount = 0;
