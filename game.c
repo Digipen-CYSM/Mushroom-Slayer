@@ -110,7 +110,7 @@ void Game_Update(void)
 	
 
 
-	float cardWidth = 200;
+	float cardWidth = 500;
 	int selectedCount = 0;
 	float cardWidthS = 350;
 
@@ -207,11 +207,11 @@ void Game_Update(void)
 			CP_Image_Draw(handS[handRng[i]][1], cardWidthS, 407, 170, 80, 255); //card value
 			CP_Image_Draw(handS[handRng[i]][2], cardWidthS - 67, 170, 41, 23, 255); //card mana
 		}else{
-			CP_Image_Draw(handS[handRng[i]][0], cardWidth, 700, 200, 300, 255); //card base
-			CP_Image_Draw(handS[handRng[i]][1], cardWidth, 807, 170, 80, 255); //card value
-			CP_Image_Draw(handS[handRng[i]][2], cardWidth - 67, 570, 41, 23, 255); //card mana
+			CP_Image_Draw(handS[i][0], cardWidth, 750, 150, 230, 255); //card base
+			CP_Image_Draw(handS[i][1], cardWidth, 830, 130, 60, 255); //card value
+			CP_Image_Draw(handS[i][2], cardWidth - 52, 650, 36, 20, 255); //card mana
 		}
-		cardWidth = cardWidth + 300;
+		cardWidth = cardWidth + 135;
 	}
 	
 	
@@ -235,12 +235,12 @@ void Game_Update(void)
 		}
 	}
 	//redeclare card width
-	cardWidth = 100;
+	cardWidth = 425;
 	//generate mouse collision for unselected cards
 	for (int i = 0; i < 5; i++) {
-		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth+200)
+		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth+130)
 		{
-			if (CP_Input_GetMouseY() >= 550 && CP_Input_GetMouseY() <= 850)
+			if (CP_Input_GetMouseY() >= 630 && CP_Input_GetMouseY() <= 870)
 			{
 				if (CP_Input_MouseClicked())
 				{
