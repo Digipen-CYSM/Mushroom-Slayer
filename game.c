@@ -161,11 +161,11 @@ void Game_Update(void)
 							pHealth = 20;
 						}
 						else {
-							pHealth += hand[selectedCheck[i]].ret;
+							pHealth += pHealth + hand[selectedCheck[i]].ret;
 						}
 						
-					}						
-					mana += hand[selectedCheck[i]].mana;
+					}
+									
 					
 					//generate new number that is not included in handRng
 					int rCheck = 1;					
@@ -185,7 +185,7 @@ void Game_Update(void)
 					
 					//reset selected
 					handCheck[selectedCheck[i]] = 0;
-					
+					mana += hand[selectedCheck[i]].mana;
 					//(void)selectedCheck[i];
 				}
 				selectedCount = 0;
