@@ -235,7 +235,7 @@ void Game_Update(void)
 		}
 	}
 	//redeclare card width
-	cardWidth = 500;
+	cardWidth = 425;
 	//generate mouse collision for unselected cards
 	for (int i = 0; i < 5; i++) {
 		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth+130)
@@ -254,7 +254,7 @@ void Game_Update(void)
 				}
 			}
 		}
-		cardWidth += 135;
+		cardWidth += 300;
 	}	
 
 }
