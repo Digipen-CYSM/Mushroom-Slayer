@@ -4,13 +4,13 @@
 #include <string.h>
 #include <stdio.h>
 //global variable
-float pHealth = 20, eHealth = 20;
+float pHealth = 20, eHealth = 20, time = 0, timeFloat;
 CardType hand[5];
 CardType deck[10];
 int handRng[5];
 int handCheck[5] = {0,0,0,0,0};
 int selectedCheck[5] = { 0,0,0,0,0 };
-int mana = 5;
+int mana = 5,enemyMove = 0;
 int oneToTen;
 char manaStr2[10];
 CP_Image handS[10][3];
@@ -79,9 +79,21 @@ void Game_Init(void)
 
 void Game_Update(void)
 {	
+	time += CP_System_GetDt();
 	//background animation
 	CP_Image_Draw(backGround, 850, 450, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 	
+	if (enemyMove == 1) {
+		if (time < timeFloat + 3) {
+			CP_Image_Draw(handS[0][0], 1500, 300, 200, 300, 255); //card base
+			CP_Image_Draw(handS[0][1], 1500, 407, 170, 80, 255); //card value
+			CP_Image_Draw(handS[0][2], 1500 - 67, 170, 41, 23, 255); //card mana
+		}
+		else {
+			enemyMove = 0;
+			pHealth -= 3;
+		}
+	}
 	//enemy image
 	CP_Image_Draw(enemyImg, 1300, 400, 200, 300, 255);
 	//enemy health and mana
@@ -96,6 +108,8 @@ void Game_Update(void)
 	CP_Image_Draw(healthImg, 400, 250, pHealth*15, 30, 255);
 	CP_Image_Draw(manaSrc[mana], 50, 500, 50, 300, 255);
 	
+
+
 	float cardWidth = 200;
 	int selectedCount = 0;
 	float cardWidthS = 350;
@@ -129,11 +143,17 @@ void Game_Update(void)
 				for (int i = 0; i < selectedCount; i++) {
 					//if its attack card
 					if (hand[selectedCheck[i]].type == 'a') {
-						eHealth -= hand[selectedCheck[i]].ret;
+						if (eHealth <= 0) {
+							eHealth = 0;
+						}
+						else {
+							eHealth -= hand[selectedCheck[i]].ret;
+						}
+						
 					}
 					//if its def card
 					if (hand[selectedCheck[i]].type == 'd') {
-						//pHealth = pHealth - 10;						
+						//pHealth = pHealth - 10;
 					}
 					//if its healing card
 					if (hand[selectedCheck[i]].type == 'h') {
@@ -169,6 +189,8 @@ void Game_Update(void)
 					//(void)selectedCheck[i];
 				}
 				selectedCount = 0;
+				timeFloat = time;
+				enemyMove = 1;
 			}
 			
 			
