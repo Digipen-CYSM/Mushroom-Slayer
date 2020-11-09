@@ -3,6 +3,7 @@
 #include "Cards.h"
 #include <string.h>
 #include <stdio.h>
+#include "GameOver.h"
 //global variable
 float pHealth = 20, eHealth = 20, time = 0, timeFloat;
 CardType hand[5];
@@ -81,7 +82,7 @@ void Game_Update(void)
 {	
 	time += CP_System_GetDt();
 	//background animation
-	CP_Image_Draw(backGround, 850, 450, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
+	CP_Image_Draw(backGround, 850, 600, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight() + 300, 255);
 	
 	if (enemyMove == 1) {
 		if (time < timeFloat + 3) {
@@ -94,23 +95,27 @@ void Game_Update(void)
 			pHealth -= 3;
 		}
 	}
+	if (pHealth == 0)
+	{
+		CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
+	}
 	//enemy image
-	CP_Image_Draw(enemyImg, 1300, 400, 200, 300, 255);
+	CP_Image_Draw(enemyImg, 1300, 470, 300, 400, 255);
 	//enemy health and mana
-	CP_Image_Draw(healthImg, 1300, 250, eHealth*15, 30, 255);
+	CP_Image_Draw(healthImg, 1300, 300, eHealth*15, 30, 255);
 	//CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 270, eHealth, 30, 255);
 	
 	//player image
-	CP_Image_Draw(playerImg, 400, 400, 200, 300, 255);
+	CP_Image_Draw(playerImg, 400, 470, 270, 370, 255);
 
 
 	//player health and mana
-	CP_Image_Draw(healthImg, 400, 250, pHealth*15, 30, 255);
+	CP_Image_Draw(healthImg, 400, 300, pHealth*15, 30, 255);
 	CP_Image_Draw(manaSrc[mana], 50, 500, 50, 300, 255);
 	
 
 
-	float cardWidth = 200;
+	float cardWidth = 550;
 	int selectedCount = 0;
 	float cardWidthS = 350;
 
@@ -145,6 +150,7 @@ void Game_Update(void)
 					if (hand[selectedCheck[i]].type == 'a') {
 						if (eHealth <= 0) {
 							eHealth = 0;
+							CP_Engine_SetNextGameState(game_over_init, victory_update, game_over_exit);
 						}
 						else {
 							eHealth -= hand[selectedCheck[i]].ret;
@@ -207,11 +213,11 @@ void Game_Update(void)
 			CP_Image_Draw(handS[handRng[i]][1], cardWidthS, 407, 170, 80, 255); //card value
 			CP_Image_Draw(handS[handRng[i]][2], cardWidthS - 67, 170, 41, 23, 255); //card mana
 		}else{
-			CP_Image_Draw(handS[handRng[i]][0], cardWidth, 700, 200, 300, 255); //card base
-			CP_Image_Draw(handS[handRng[i]][1], cardWidth, 807, 170, 80, 255); //card value
-			CP_Image_Draw(handS[handRng[i]][2], cardWidth - 67, 570, 41, 23, 255); //card mana
+			CP_Image_Draw(handS[handRng[i]][0], cardWidth, 750, 150, 230, 255); //card base
+			CP_Image_Draw(handS[handRng[i]][1], cardWidth, 830, 130, 60, 255); //card value
+			CP_Image_Draw(handS[handRng[i]][2], cardWidth - 52, 650, 36, 20, 255); //card mana
 		}
-		cardWidth = cardWidth + 300;
+		cardWidth = cardWidth + 135;
 	}
 	
 	
@@ -235,12 +241,12 @@ void Game_Update(void)
 		}
 	}
 	//redeclare card width
-	cardWidth = 100;
+	cardWidth = 495;
 	//generate mouse collision for unselected cards
 	for (int i = 0; i < 5; i++) {
-		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth+200)
+		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth+130)
 		{
-			if (CP_Input_GetMouseY() >= 550 && CP_Input_GetMouseY() <= 850)
+			if (CP_Input_GetMouseY() >= 635 && CP_Input_GetMouseY() <= 865)
 			{
 				if (CP_Input_MouseClicked())
 				{
@@ -254,7 +260,7 @@ void Game_Update(void)
 				}
 			}
 		}
-		cardWidth += 300;
+		cardWidth += 135;
 	}	
 
 }
