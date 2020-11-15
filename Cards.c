@@ -19,7 +19,6 @@ CardType attackCard(void) {
 	cards.baseSrc = "Assets/cards/attackBase.png";
 	cards.valSrc = "Assets/cards/val3.png";
 	cards.manaSrc = "Assets/cards/mana2.png";
-	cards.imgSrc = "Assets/cards/attackBase.png";
 	return cards;
 }
 
@@ -32,7 +31,6 @@ CardType defenceCard(void) {
 	cards.baseSrc = "Assets/cards/defenceBase.png";
 	cards.valSrc = "Assets/cards/val2.png";
 	cards.manaSrc = "Assets/cards/mana1.png";
-	cards.imgSrc = "Assets/cards/defenceBase.png";
 	return cards;
 }
 
