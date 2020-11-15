@@ -12,7 +12,7 @@ void loadImg(void) {
 	backGround = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
 	//load enemy img
 	enemyImg = CP_Image_Load("Assets/enemy/ms1.png");
-	healthImg = CP_Image_Load("Assets/health.jpg");
+
 	playerImg = CP_Image_Load("Assets/character/Character.png");
 }
 

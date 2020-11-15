@@ -6,3 +6,6 @@ typedef struct Player {
 } Player;
 
 Player createCharacter(void);
+void hpAndManaLoad(void);
+int drawHealthSrc(int health);
+void drawManaSrc(int mana);

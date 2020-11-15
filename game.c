@@ -5,61 +5,119 @@
 #include <stdio.h>
 #include "GameOver.h"
 #include "GameLoad.h"
-
+#include "Character.h"
+#include "Enemy.h"
 //global variable
-float pHealth = 20, eHealth = 20, time = 0, timeFloat;
+float time = 0, timeFloat;
+int pHealth = 20, eHealth = 20, nCheck;
 CardType* hand;
 CardType* deck;
 
-int handRng[5];
-int handCheck[5] = {0,0,0,0,0};
+int handCheck[5] = {0,0,0,0,0}; //change to dynamic
+int* handCheckP = handCheck;
 int selectedCheck[5] = { 0,0,0,0,0 };
-int mana = 5,enemyMove = 0;
-int oneToTen;
-char manaStr2[10];
-CP_Image handS[10][3];
-CP_Image manaSrc[10];
-CP_Image confirmButton, backGround, enemyImg,healthImg, playerImg;
-
-
+int mana = 3,enemyMove = 0;
+CP_Image confirmButton;
 void Game_Init(void)
 {
-	
+	//load bg, char, enemy src
+	loadImg();
+
+	//generate deck array
 	deck = generateDeck();
+
+	//generate card in hand
+	hand = drawCards(deck, 5, 1);
+
+	//load deck img src
 	loadDeckImg(deck, 10);
 
-	//load mana bar img and deck img
-	//for (int i = 0; i < 10; i++) {
-	//	handS[i][0] = CP_Image_Load(deck[i].baseSrc);
-	//	handS[i][1] = CP_Image_Load(deck[i].valSrc);
-	//	handS[i][2] = CP_Image_Load(deck[i].manaSrc);
-	//	char str[100] = "Assets/manaBar/mana";
-	//	int manaStr = 48+i;
-	//	manaStr2[0] = (char)manaStr;
-	//	strcat_s(str, sizeof(str), manaStr2);
-	//	strcat_s(str, sizeof(str), ".png");
+	//load player hp and mana img src
+	hpAndManaLoad();
 
-	//	manaSrc[i] = CP_Image_Load(str);
-	//}
+	//load enemy img src
+	hpLoadE();
 
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
-	//load background img
-	backGround = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
-	//load enemy img
-	enemyImg = CP_Image_Load("Assets/enemy/ms1.png");
-	healthImg = CP_Image_Load("Assets/health.jpg");
-	playerImg = CP_Image_Load("Assets/character/Character.png");
+
+	
 }
 
 
 void Game_Update(void)
 {	
-	//draw background, char, enemy
-	drawBg();
-	hand = drawCards(deck, 5, 10);
-
 	time += CP_System_GetDt();
+
+	//draw background, char, enemy
+	drawBg();	
+
+	//draw player health and mana
+	drawHealthSrc(pHealth);
+	drawManaSrc(mana);
+
+	//draw enemy hp
+	drawHealthSrcE(eHealth);
+
+	float cardWidth = 420;
+	int selectedCount = 0;
+	float cardWidthS = 350;
+	
+	for (int i = 0; i < 5; i++) {
+		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth + 150)
+		{
+			if (CP_Input_GetMouseY() >= 635 && CP_Input_GetMouseY() <= 865)
+			{
+				if (CP_Input_MouseClicked())
+				{
+					if (hand[i].mana <= mana) {
+						if (handCheck[i] == 0) {
+							handCheck[i] = 1;
+							mana -= hand[i].mana;
+						}
+					}
+				}
+			}
+		}
+		cardWidth += 135;
+	}
+	for (int i = 0; i < 5; i++) {
+		if (handCheck[i] == 1) {
+			selectedCount += 1;
+		}
+	}
+	cardWidthS = 350;
+	//click on selected card and bring down
+	if (selectedCount > 0) {
+		for (int i = 0; i < selectedCount; i++) {
+			if (CP_Input_GetMouseX() >= 1000 / (float)(selectedCount + 1) + cardWidthS - 100 && CP_Input_GetMouseX() <= 1000 / (float)(selectedCount + 1) + cardWidthS + 100) {
+				if (CP_Input_GetMouseY() >= 150 && CP_Input_GetMouseY() <= 450) {
+					if (CP_Input_MouseClicked()) {
+						//mana, selected count, handCheck
+						nCheck = 0;
+						for (int j = 0; j < 5; j++) {
+							if (handCheckP[j] == 1 && nCheck == i) {
+								mana += hand[j].mana;
+								handCheckP[j] = 0;
+								break;
+							}
+							if (handCheckP[j] == 1) {
+								nCheck += 1;
+							}
+						}
+						//selectedCount -= 1;//might not work
+					}
+				}
+			}
+			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
+		}
+	}
+	
+	//draw hand src
+	drawHandSrc(handCheckP, selectedCount);
+
+	
+	
 	//enemy move
 	//if (enemyMove == 1) {
 	//	if (time < timeFloat + 3) {
@@ -75,28 +133,10 @@ void Game_Update(void)
 	//if (pHealth == 0)
 	//{
 	//	CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
-	//}
+	//}	
 	
-	//enemy health and mana
-	CP_Image_Draw(healthImg, 1300, 300, eHealth*15, 30, 255);
-	//CP_Image_Draw(CP_Image_Load("Assets/health.jpg"), 1300, 270, eHealth, 30, 255);
-	
-	//player health and mana
-	CP_Image_Draw(healthImg, 400, 300, pHealth*15, 30, 255);
-	CP_Image_Draw(manaSrc[mana], 50, 500, 50, 300, 255);
-	
-	drawHandSrc(5);
 
-	float cardWidth = 550;
-	int selectedCount = 0;
-	float cardWidthS = 350;
 
-	//get total number of selected cards
-	for (int i = 0; i < 5; i++) {
-		if (handCheck[i] == 1) {
-			selectedCount += 1;
-		}
-	}
 
 	//show confirm button 
 	if (selectedCount > 0) {
@@ -114,117 +154,60 @@ void Game_Update(void)
 	}
 
 	//Confirm button
-	if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950) {
-		if (CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
-			if (CP_Input_MouseClicked()) {
-				for (int i = 0; i < selectedCount; i++) {
-					//if its attack card
-					if (hand[selectedCheck[i]].type == 'a') {
-						if (eHealth <= 0) {
-							eHealth = 0;
-							CP_Engine_SetNextGameState(game_over_init, victory_update, game_over_exit);
-						}
-						else {
-							eHealth -= hand[selectedCheck[i]].ret;
-						}
-						
-					}
-					//if its def card
-					if (hand[selectedCheck[i]].type == 'd') {
-						//pHealth = pHealth - 10;
-					}				
-					mana += hand[selectedCheck[i]].mana;
-					
-					//generate new number that is not included in handRng
-					int rCheck = 1;					
-					while (rCheck == 1) {
-						rCheck = 0;
-						oneToTen = CP_Random_RangeInt(0, 9);
-						for (int j = 0; j < 5; j++) {
-							if (handRng[j] == oneToTen) {
-								rCheck = 1;
-							}
-						}
-						
-					}
-					handRng[selectedCheck[i]] = oneToTen;
-					//replace selected card in hand[] 
-					hand[selectedCheck[i]] = deck[oneToTen];
-					
-					//reset selected
-					handCheck[selectedCheck[i]] = 0;
-					
-					//(void)selectedCheck[i];
-				}
-				selectedCount = 0;
-				timeFloat = time;
-				enemyMove = 1;
-			}
-			
-			
-		}
-	}
-	
-	
-
-	//draw card image based on selected and unselected
-	//for (int i = 0; i < 5; i++) {
-	//	if (handCheck[i] == 1) {
-	//		cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
-	//		CP_Image_Draw(handS[handRng[i]][0], cardWidthS, 300, 200, 300, 255); //card base
-	//		CP_Image_Draw(handS[handRng[i]][1], cardWidthS, 407, 170, 80, 255); //card value
-	//		CP_Image_Draw(handS[handRng[i]][2], cardWidthS - 67, 170, 41, 23, 255); //card mana
-	//	}else{
-	//		CP_Image_Draw(handS[handRng[i]][0], cardWidth, 750, 150, 230, 255); //card base
-	//		CP_Image_Draw(handS[handRng[i]][1], cardWidth, 830, 130, 60, 255); //card value
-	//		CP_Image_Draw(handS[handRng[i]][2], cardWidth - 52, 650, 36, 20, 255); //card mana
+	//if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950) {
+	//	if (CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
+	//		if (CP_Input_MouseClicked()) {
+	//			for (int i = 0; i < selectedCount; i++) {
+	//				//if its attack card
+	//				if (hand[selectedCheck[i]].type == 'a') {
+	//					if (eHealth <= 0) {
+	//						eHealth = 0;
+	//						CP_Engine_SetNextGameState(game_over_init, victory_update, game_over_exit);
+	//					}
+	//					else {
+	//						eHealth -= hand[selectedCheck[i]].ret;
+	//					}
+	//					
+	//				}
+	//				//if its def card
+	//				if (hand[selectedCheck[i]].type == 'd') {
+	//					//pHealth = pHealth - 10;
+	//				}				
+	//				mana += hand[selectedCheck[i]].mana;
+	//				
+	//				//generate new number that is not included in handRng
+	//				int rCheck = 1;					
+	//				while (rCheck == 1) {
+	//					rCheck = 0;
+	//					oneToTen = CP_Random_RangeInt(0, 9);
+	//					for (int j = 0; j < 5; j++) {
+	//						if (handRng[j] == oneToTen) {
+	//							rCheck = 1;
+	//						}
+	//					}
+	//					
+	//				}
+	//				handRng[selectedCheck[i]] = oneToTen;
+	//				//replace selected card in hand[] 
+	//				hand[selectedCheck[i]] = deck[oneToTen];
+	//				
+	//				//reset selected
+	//				handCheck[selectedCheck[i]] = 0;
+	//				
+	//				//(void)selectedCheck[i];
+	//			}
+	//			selectedCount = 0;
+	//			timeFloat = time;
+	//			enemyMove = 1;
+	//		}
+	//		
+	//		
 	//	}
-	//	cardWidth = cardWidth + 135;
 	//}
-
 	
 	
-	cardWidthS = 350; //redeclare card width selected
 
-	//click on selected card and bring down
-	if (selectedCount > 0) {
-		for (int i = 0; i < selectedCount; i++) {
-			if (CP_Input_GetMouseX() >= 1000 / (float)(selectedCount + 1) + cardWidthS - 100 && CP_Input_GetMouseX() <= 1000 / (float)(selectedCount + 1) + cardWidthS + 100) {
-				if (CP_Input_GetMouseY() >= 150 && CP_Input_GetMouseY() <= 450) {
-					if (CP_Input_MouseClicked()) {
-						//mana, selected count, handCheck
-						mana += hand[selectedCheck[i]].mana;
-						selectedCount -= 1;
-						handCheck[selectedCheck[i]] = 0;
-					}
-				}
-			}
-			
-			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
-		}
-	}
-	//redeclare card width
-	cardWidth = 495;
-	//generate mouse collision for unselected cards
-	for (int i = 0; i < 5; i++) {
-		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth+130)
-		{
-			if (CP_Input_GetMouseY() >= 635 && CP_Input_GetMouseY() <= 865)
-			{
-				if (CP_Input_MouseClicked())
-				{
-					if (hand[i].mana <= mana) {
-						if (handCheck[i] == 0) {
-							handCheck[i] = 1;
-							mana -= hand[i].mana;
-						}
 
-					}
-				}
-			}
-		}
-		cardWidth += 135;
-	}	
 
 }
 

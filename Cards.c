@@ -1,12 +1,13 @@
 #include "cprocessing.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "Cards.h"
-CardType hand[50];
+
 CardType* deckPtr;
 CardType* handPtr;
-CardType deck[50];
-int handRng[50], rCheck = 1, oneToTen;
-CP_Image deckSrc[50];
+int* handRng;
+int rCheck, rng, deckSize,handSize;
+CP_Image* deckSrc;
 
 
 CardType attackCard(void) {
@@ -36,50 +37,64 @@ CardType defenceCard(void) {
 }
 
 
-
+//generate the deck and create pointer pointing to the deck
 CardType* generateDeck(void) {
-	//generate cards into deck
-	for (int i = 0; i < 10; i++) {
+	deckSize = 10;
+	deckPtr = (CardType*)malloc(deckSize * sizeof(CardType));
+	for (int i = 0; i < deckSize; i++) {
 		if (i < 5) {
-			deck[i] = attackCard();
+			deckPtr[i] = attackCard();
 		}
 		else {
-			deck[i] = defenceCard();
+			deckPtr[i] = defenceCard();
 		}
 	}
-	deckPtr = deck;
 	return deckPtr;
 }
 
-CardType* drawCards(CardType* deckp,int numCards,int numDeck) {	
+//draw a new set of cards and put it into handRng and handPtr
+CardType* drawCards(CardType* deckp,int numCards,int fCheck) {
+	handSize = numCards;
+	if (fCheck == 1) {
+		handPtr = (CardType*)malloc(numCards * sizeof(CardType));
+		handRng = (int*)malloc(numCards * sizeof(int));
+	}
+	
 	for (int i = 0; i < numCards; i++) {
+		rCheck = 1;
 		while (rCheck == 1) {
 			rCheck = 0;
-			oneToTen = CP_Random_RangeInt(0, numDeck);
+			rng = CP_Random_RangeInt(0, deckSize-1);
 			for (int j = 0; j < numCards; j++) {
-				if (handRng[j] == oneToTen && i != 0) {
+				if (handRng[j] == rng && i != 0) {
 					rCheck = 1;
 				}
 			}
 		}
-		handRng[i] = oneToTen;
-		hand[i] = deckp[oneToTen];
+		handRng[i] = rng;
+		handPtr[i] = deckp[rng];
 	}
-
 	return handPtr;
 }
 
 void loadDeckImg(CardType* deckp,int numDeck) {
+	deckSrc = (CP_Image*)malloc(numDeck * sizeof(CP_Image));
 	for (int i=0; i < numDeck; i++) {
 		deckSrc[i] = CP_Image_Load(deckp[i].imgSrc);
 	}
 }
 
-void drawHandSrc(int numHand) {
-	float cardWidth = 350;
-	for (int i = 0; i < numHand; i++) {
-		//take note need to specify what i is
-		CP_Image_Draw(deckSrc[i], cardWidth, 750, 150, 230, 255);
+void drawHandSrc(int* handCheck,int selectedCount) {
+	float cardWidth = 495, cardWidthS = 350;
+	for (int i = 0; i < handSize; i++) {		
+		if (handCheck[i] == 0) {
+			CP_Image_Draw(deckSrc[handRng[i]], cardWidth, 750, 150, 230, 255);
+		}
+		else {
+			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
+			CP_Image_Draw(deckSrc[handRng[i]], cardWidthS, 300, 200, 300, 255);
+		}
 		cardWidth += 135;
 	}
 }
+
