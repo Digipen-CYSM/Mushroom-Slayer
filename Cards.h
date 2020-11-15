@@ -7,6 +7,7 @@ typedef struct CardType {
 	char *valSrc;
 	char *baseSrc;
 	char *manaSrc;
+	char* imgSrc;
 } CardType;
 
 CardType attackCard(void);

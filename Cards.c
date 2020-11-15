@@ -14,11 +14,8 @@ CardType attackCard(void) {
 	CardType cards;
 	cards.type = 'a';
 	cards.ret = 3;
-	//cards.ret = CP_Random_RangeInt(1, 3)
+	cards.imgSrc = "Assets/cards/attackBase.png";
 	cards.mana = 2;
-	cards.baseSrc = "Assets/cards/attackBase.png";
-	cards.valSrc = "Assets/cards/val3.png";
-	cards.manaSrc = "Assets/cards/mana2.png";
 	return cards;
 }
 
@@ -26,11 +23,8 @@ CardType defenceCard(void) {
 	CardType cards;
 	cards.type = 'd';
 	cards.ret = 2;
-	//cards.ret = CP_Random_RangeInt(1, 3)
 	cards.mana = 1;
-	cards.baseSrc = "Assets/cards/defenceBase.png";
-	cards.valSrc = "Assets/cards/val2.png";
-	cards.manaSrc = "Assets/cards/mana1.png";
+	cards.imgSrc = "Assets/cards/defenceBase.png";
 	return cards;
 }
 
