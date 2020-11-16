@@ -134,7 +134,8 @@ void Game_Update(void)
 	//draw hand src
 	drawHandSrc(handCheckP, selectedCount);
 
-	
+	//confirm button logic
+	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize,deck);
 	
 	//enemy move
 	//if (enemyMove == 1) {
@@ -154,7 +155,7 @@ void Game_Update(void)
 	//}	
 	
 	
-	confirmPressed(handCheckP, hand, playerPtr, enemyPtr,handSize);
+	
 
 }
 

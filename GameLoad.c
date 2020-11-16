@@ -32,26 +32,29 @@ void drawConfrim(void) {
 	CP_Image_Draw(confirmButton, 850, 100, 200, 50, 255);
 }
 
-void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize) {
+void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize,CardType* deck) {
 	if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950 && CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
 		if (CP_Input_MouseClicked()) {
 			for (int i = 0; i < handSize; i++) {
 				if (handCheck[i] == 1) {
 					if (hand[i].type == 'a') {
-						attackCard(enemy->health,hand[i].ret);
-						handCheck[i] = 0;
+						attackCard(enemy,hand[i].ret);
+												
 					}
 					else if (hand[i].type == 'd') {
-						defenceCard(hand[i].ret, player);
-						handCheck[i] = 0;
+						defenceCard(hand[i].ret, player);										
 					}
 					else
 					{
 						handCheck[i] = 0;
 						break;
 					}
+					handCheck[i] = 0;
+					player->mana += hand[i].mana;
+
 				}
 			}
+			drawCards(deck, handSize, 0);
 		}		
 	}
 }

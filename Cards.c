@@ -31,9 +31,8 @@ CardType createDefenceCard(void) {//parameter for value and mana
 	return cards;
 }
 
-int attackCard(int health,int damage) {
-	health -= damage;
-	return health;
+void attackCard(Enemy* enemy,int damage) {
+	enemy->health -= damage;
 }
 
 void defenceCard(int defence, Player* player) {

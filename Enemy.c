@@ -32,3 +32,5 @@ void drawHealthSrcE(Enemy enemy) {
 
 	}
 }
+
+//enemy move here
