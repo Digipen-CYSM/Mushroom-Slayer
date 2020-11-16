@@ -7,4 +7,4 @@ typedef struct Enemy {
 
 Enemy mushRoom(void);
 void hpLoadE(void);
-void drawHealthSrcE(int health);
+void drawHealthSrcE(Enemy enemy);

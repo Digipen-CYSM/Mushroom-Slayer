@@ -9,19 +9,29 @@
 #include "Enemy.h"
 //global variable
 float time = 0, timeFloat;
-int pHealth = 20, eHealth = 20, nCheck;
+int nCheck;
 CardType* hand;
 CardType* deck;
-
+Player* playerPtr;
+Player player;
+Enemy* enemyPtr;
+Enemy enemy;
 int handCheck[5] = {0,0,0,0,0}; //change to dynamic
 int* handCheckP = handCheck;
-int selectedCheck[5] = { 0,0,0,0,0 };
-int mana = 3,enemyMove = 0;
+int enemyMove = 0,handSize = 5;
 CP_Image confirmButton;
 void Game_Init(void)
 {
 	//load bg, char, enemy src
 	loadImg();
+
+	//create character
+	player = createCharacter();
+	playerPtr = &player;
+
+	//create enemy
+	enemy = mushRoom();
+	enemyPtr = &enemy;
 
 	//generate deck array
 	deck = generateDeck();
@@ -40,8 +50,6 @@ void Game_Init(void)
 
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
-
-	
 }
 
 
@@ -52,12 +60,13 @@ void Game_Update(void)
 	//draw background, char, enemy
 	drawBg();	
 
-	//draw player health and mana
-	drawHealthSrc(pHealth);
-	drawManaSrc(mana);
+	//draw player health, mana, defence
+	drawHealthSrc(player);
+	drawManaSrc(player);
+	drawDefenceSrc(player);
 
 	//draw enemy hp
-	drawHealthSrcE(eHealth);
+	drawHealthSrcE(enemy);
 
 	float cardWidth = 420;
 	int selectedCount = 0;
@@ -70,10 +79,10 @@ void Game_Update(void)
 			{
 				if (CP_Input_MouseClicked())
 				{
-					if (hand[i].mana <= mana) {
-						if (handCheck[i] == 0) {
-							handCheck[i] = 1;
-							mana -= hand[i].mana;
+					if (hand[i].mana <= player.mana) {
+						if (handCheckP[i] == 0) {
+							handCheckP[i] = 1;
+							player.mana -= hand[i].mana;
 						}
 					}
 				}
@@ -81,11 +90,20 @@ void Game_Update(void)
 		}
 		cardWidth += 135;
 	}
+
+	//count selected cards
 	for (int i = 0; i < 5; i++) {
-		if (handCheck[i] == 1) {
+		if (handCheckP[i] == 1) {
 			selectedCount += 1;
 		}
 	}
+	
+	//draw cfm button
+	if (selectedCount > 0) {
+		drawConfrim();
+	}
+
+	
 	cardWidthS = 350;
 	//click on selected card and bring down
 	if (selectedCount > 0) {
@@ -97,7 +115,7 @@ void Game_Update(void)
 						nCheck = 0;
 						for (int j = 0; j < 5; j++) {
 							if (handCheckP[j] == 1 && nCheck == i) {
-								mana += hand[j].mana;
+								player.mana += hand[j].mana;
 								handCheckP[j] = 0;
 								break;
 							}
@@ -105,7 +123,7 @@ void Game_Update(void)
 								nCheck += 1;
 							}
 						}
-						//selectedCount -= 1;//might not work
+						selectedCount -= 1;//might not work
 					}
 				}
 			}
@@ -135,79 +153,8 @@ void Game_Update(void)
 	//	CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
 	//}	
 	
-
-
-
-	//show confirm button 
-	if (selectedCount > 0) {
-		CP_Image_Draw(confirmButton, 850, 100, 200, 50, 255);
-	}
-
 	
-	//know the index of selected card
-	int sCheck = 0;
-	for (int i = 0; i < 5; i++) {
-		if (handCheck[i] == 1) {
-			selectedCheck[sCheck] = i;
-			sCheck += 1;
-		}
-	}
-
-	//Confirm button
-	//if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950) {
-	//	if (CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
-	//		if (CP_Input_MouseClicked()) {
-	//			for (int i = 0; i < selectedCount; i++) {
-	//				//if its attack card
-	//				if (hand[selectedCheck[i]].type == 'a') {
-	//					if (eHealth <= 0) {
-	//						eHealth = 0;
-	//						CP_Engine_SetNextGameState(game_over_init, victory_update, game_over_exit);
-	//					}
-	//					else {
-	//						eHealth -= hand[selectedCheck[i]].ret;
-	//					}
-	//					
-	//				}
-	//				//if its def card
-	//				if (hand[selectedCheck[i]].type == 'd') {
-	//					//pHealth = pHealth - 10;
-	//				}				
-	//				mana += hand[selectedCheck[i]].mana;
-	//				
-	//				//generate new number that is not included in handRng
-	//				int rCheck = 1;					
-	//				while (rCheck == 1) {
-	//					rCheck = 0;
-	//					oneToTen = CP_Random_RangeInt(0, 9);
-	//					for (int j = 0; j < 5; j++) {
-	//						if (handRng[j] == oneToTen) {
-	//							rCheck = 1;
-	//						}
-	//					}
-	//					
-	//				}
-	//				handRng[selectedCheck[i]] = oneToTen;
-	//				//replace selected card in hand[] 
-	//				hand[selectedCheck[i]] = deck[oneToTen];
-	//				
-	//				//reset selected
-	//				handCheck[selectedCheck[i]] = 0;
-	//				
-	//				//(void)selectedCheck[i];
-	//			}
-	//			selectedCount = 0;
-	//			timeFloat = time;
-	//			enemyMove = 1;
-	//		}
-	//		
-	//		
-	//	}
-	//}
-	
-	
-
-
+	confirmPressed(handCheckP, hand, playerPtr, enemyPtr,handSize);
 
 }
 

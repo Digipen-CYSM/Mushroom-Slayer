@@ -1,8 +1,7 @@
 #include "cprocessing.h"
 CP_Image healthSrcE;
 typedef struct Enemy {
-	int health;
-	
+	int health;	
 } Enemy;
 
 Enemy mushRoom(void)
@@ -16,9 +15,9 @@ void hpLoadE(void) {
 	healthSrcE = CP_Image_Load("Assets/hpnshield/hp.png");
 }
 
-void drawHealthSrcE(int health) {
+void drawHealthSrcE(Enemy enemy) {
 	float eHealthWidth = 1670;
-	for (int i = 0; i < health; i++) {
+	for (int i = 0; i < enemy.health; i++) {
 		if (i == 10) {
 			eHealthWidth = 1670;
 		}

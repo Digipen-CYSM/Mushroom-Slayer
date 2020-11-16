@@ -2,12 +2,13 @@
 #include <string.h>
 #include <stdio.h>
 CP_Image healthSrc;
+CP_Image defenceSrc;
 CP_Image manaSrc[10];
 char manaStr2[10];
-
 typedef struct Player {
 	int health;
 	int mana;
+	int defence;
 } Player;
 
 Player createCharacter(void) 
@@ -15,11 +16,13 @@ Player createCharacter(void)
 	Player player1;
 	player1.health = 20;
 	player1.mana = 3;
+	player1.defence = 0;
 	return player1;
 }
 
 void hpAndManaLoad(void) {
 	healthSrc = CP_Image_Load("Assets/hpnshield/hp.png");
+	defenceSrc = CP_Image_Load("Assets/hpnshield/shield.png");
 	for (int i = 0; i < 10; i++) {
 		char str[100] = "Assets/manaBar/mana";
 		int manaStr = 48+i;
@@ -31,17 +34,20 @@ void hpAndManaLoad(void) {
 	
 }
 
-void drawHealthSrc(int health) {
+void drawHealthSrc(Player player) {
 	float pHealthWidth = 30;
-	for (int i = 0; i < health; i++) {		
-		if (i == 10) {
+	for (int i = 0; i < player.health; i++) {		
+		if (i == 10 || i == 20) {
 			pHealthWidth = 30;
 		}
 		if (i < 10) {
 			CP_Image_Draw(healthSrc, pHealthWidth, 30, 40, 40, 255);
 		}
-		else {
+		else if(i<20){
 			CP_Image_Draw(healthSrc, pHealthWidth, 75, 40, 40, 255);
+		}
+		else {
+			CP_Image_Draw(healthSrc, pHealthWidth, 120, 40, 40, 255);
 		}
 		
 		pHealthWidth += 40;
@@ -49,6 +55,24 @@ void drawHealthSrc(int health) {
 	}
 }
 
-void drawManaSrc(int mana) {
-	CP_Image_Draw(manaSrc[mana], 50, 660, 50, 400, 255);
+void drawDefenceSrc(Player player) {
+	float defenceWidth, defenceHeight;
+	if (player.health <= 10) {
+		defenceHeight = 75;
+	}
+	else if (player.health <= 20) {
+		defenceHeight = 120;
+	}
+	else {
+		defenceHeight = 165;
+	}
+	defenceWidth = (float)(player.health % 10) * 40 + 30;
+	for (int i = 0; i < player.defence; i++) {
+		CP_Image_Draw(defenceSrc, defenceWidth, defenceHeight, 40, 40, 255);
+		defenceWidth += 40;
+	}
+}
+
+void drawManaSrc(Player player) {
+	CP_Image_Draw(manaSrc[player.mana], 50, 660, 50, 400, 255);
 }

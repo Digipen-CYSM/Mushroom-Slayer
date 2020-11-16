@@ -2,6 +2,9 @@
 #include <string.h>
 #include <stdio.h>
 #include "GameLoad.h"
+#include "Cards.h"
+#include "Character.h"
+#include "Enemy.h"
 CP_Image confirmButton, backGround, enemyImg, healthImg, playerImg;
 
 
@@ -22,4 +25,33 @@ void drawBg(void) {
 	CP_Image_Draw(enemyImg, 1300, 470, 300, 400, 255);
 	//player image
 	CP_Image_Draw(playerImg, 400, 470, 270, 370, 255);
+}
+
+void drawConfrim(void) {
+	//show confirm button
+	CP_Image_Draw(confirmButton, 850, 100, 200, 50, 255);
+}
+
+void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize) {
+	if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950 && CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
+		if (CP_Input_MouseClicked()) {
+			for (int i = 0; i < handSize; i++) {
+				if (handCheck[i] == 1) {
+					if (hand[i].type == 'a') {
+						attackCard(enemy->health,hand[i].ret);
+						handCheck[i] = 0;
+					}
+					else if (hand[i].type == 'd') {
+						defenceCard(hand[i].ret, player);
+						handCheck[i] = 0;
+					}
+					else
+					{
+						handCheck[i] = 0;
+						break;
+					}
+				}
+			}
+		}		
+	}
 }

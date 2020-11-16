@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Cards.h"
+#include "Enemy.h"
+#include "Character.h"
+#include "game.h"
 
 CardType* deckPtr;
 CardType* handPtr;
@@ -10,24 +13,33 @@ int rCheck, rng, deckSize,handSize;
 CP_Image* deckSrc;
 
 
-CardType attackCard(void) {
+CardType createAttackCard(void) {//parameter for value and mana
 	CardType cards;
 	cards.type = 'a';
-	cards.ret = 3;
-	cards.imgSrc = "Assets/cards/attackBase.png";
-	cards.mana = 2;
+	cards.ret = 1;
+	cards.imgSrc = "Assets/cards/attack1.png";
+	cards.mana = 1;
 	return cards;
 }
 
-CardType defenceCard(void) {
+CardType createDefenceCard(void) {//parameter for value and mana
 	CardType cards;
 	cards.type = 'd';
 	cards.ret = 2;
 	cards.mana = 1;
-	cards.imgSrc = "Assets/cards/defenceBase.png";
+	cards.imgSrc = "Assets/cards/defence1.png";
 	return cards;
 }
 
+int attackCard(int health,int damage) {
+	health -= damage;
+	return health;
+}
+
+void defenceCard(int defence, Player* player) {
+	player->defence += defence;
+	/*return player->defence;*/
+}
 
 //generate the deck and create pointer pointing to the deck
 CardType* generateDeck(void) {
@@ -35,10 +47,10 @@ CardType* generateDeck(void) {
 	deckPtr = (CardType*)malloc(deckSize * sizeof(CardType));
 	for (int i = 0; i < deckSize; i++) {
 		if (i < 5) {
-			deckPtr[i] = attackCard();
+			deckPtr[i] = createAttackCard();
 		}
 		else {
-			deckPtr[i] = defenceCard();
+			deckPtr[i] = createDefenceCard();
 		}
 	}
 	return deckPtr;
