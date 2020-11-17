@@ -1,14 +1,18 @@
 #include "cprocessing.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
+
 CP_Image healthSrc;
 CP_Image defenceSrc;
 CP_Image manaSrc[10];
 char manaStr2[10];
+
 typedef struct Player {
 	int health;
 	int mana;
 	int defence;
+	bool abnormal_status;
 } Player;
 
 Player createCharacter(void) 

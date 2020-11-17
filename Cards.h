@@ -1,14 +1,18 @@
 #pragma once
 #include "Character.h"
 #include "Enemy.h"
+#include <stdbool.h>
+
 typedef struct CardType {
 	char type;
 	int ret;
+	int multiplier;
 	int mana;
 	char *valSrc;
 	char *baseSrc;
 	char *manaSrc;
 	char* imgSrc;
+	bool abnormal_status;
 } CardType;
 
 CardType createAttackCard(void);
