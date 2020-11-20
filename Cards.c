@@ -101,3 +101,55 @@ void drawHandSrc(int* handCheck,int selectedCount) {
 	}
 }
 
+void handuCollision(CardType* hand,Player* player,int* handCheckP) {
+	float cardWidth = 420;	
+	for (int i = 0; i < 5; i++) {
+		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth + 135)
+		{
+			if (CP_Input_GetMouseY() >= 635 && CP_Input_GetMouseY() <= 865)
+			{
+				if (CP_Input_MouseClicked())
+				{
+					if (hand[i].mana <= player->mana) {
+						if (handCheckP[i] == 0) {
+							handCheckP[i] = 1;
+							player->mana -= hand[i].mana;
+						}
+					}
+				}
+			}
+		}
+		cardWidth += 135;
+	}
+}
+
+void handsCollision(int selectedCount,int* handCheckP,Player* player,CardType* hand) {
+	float cardWidthS = 350;
+	int nCheck;
+	//click on selected card and bring down
+	if (selectedCount > 0) {
+		for (int i = 0; i < selectedCount; i++) {
+			if (CP_Input_GetMouseX() >= 1000 / (float)(selectedCount + 1) + cardWidthS - 100 && CP_Input_GetMouseX() <= 1000 / (float)(selectedCount + 1) + cardWidthS + 100) {
+				if (CP_Input_GetMouseY() >= 150 && CP_Input_GetMouseY() <= 450) {
+					if (CP_Input_MouseClicked()) {
+						//mana, selected count, handCheck
+						nCheck = 0;
+						for (int j = 0; j < 5; j++) {
+							if (handCheckP[j] == 1 && nCheck == i) {
+								player->mana += hand[j].mana;
+								handCheckP[j] = 0;
+								break;
+							}
+							if (handCheckP[j] == 1) {
+								nCheck += 1;
+							}
+						}
+						selectedCount -= 1;
+					}
+				}
+			}
+			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
+		}
+	}
+}
+

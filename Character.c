@@ -80,3 +80,16 @@ void drawDefenceSrc(Player player) {
 void drawManaSrc(Player player) {
 	CP_Image_Draw(manaSrc[player.mana], 50, 660, 50, 400, 255);
 }
+
+void takeDamage(Player* player, int damage) {
+	if (player->defence < damage) {
+		player->defence = 0;
+		player->health = damage - player->defence;
+	}
+	else if (player->defence > damage) {
+		player->defence -= damage;
+	}
+	else {
+		player->defence = 0;
+	}
+}

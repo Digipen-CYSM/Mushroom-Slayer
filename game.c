@@ -9,7 +9,6 @@
 #include "Enemy.h"
 //global variable
 float time = 0, timeFloat;
-int nCheck;
 CardType* hand;
 CardType* deck;
 Player* playerPtr;
@@ -20,6 +19,7 @@ int handCheck[5] = {0,0,0,0,0}; //change to dynamic
 int* handCheckP = handCheck;
 int enemyMove = 0,handSize = 5;
 CP_Image confirmButton;
+
 void Game_Init(void)
 {
 	//load bg, char, enemy src
@@ -68,28 +68,11 @@ void Game_Update(void)
 	//draw enemy hp
 	drawHealthSrcE(enemy);
 
-	float cardWidth = 420;
+
 	int selectedCount = 0;
-	float cardWidthS = 350;
 	
-	for (int i = 0; i < 5; i++) {
-		if (CP_Input_GetMouseX() >= cardWidth && CP_Input_GetMouseX() <= cardWidth + 150)
-		{
-			if (CP_Input_GetMouseY() >= 635 && CP_Input_GetMouseY() <= 865)
-			{
-				if (CP_Input_MouseClicked())
-				{
-					if (hand[i].mana <= player.mana) {
-						if (handCheckP[i] == 0) {
-							handCheckP[i] = 1;
-							player.mana -= hand[i].mana;
-						}
-					}
-				}
-			}
-		}
-		cardWidth += 135;
-	}
+	//unselected hand collision
+	handuCollision(hand, playerPtr, handCheckP);
 
 	//count selected cards
 	for (int i = 0; i < 5; i++) {
@@ -103,34 +86,9 @@ void Game_Update(void)
 		drawConfrim();
 	}
 
-	
-	cardWidthS = 350;
-	//click on selected card and bring down
-	if (selectedCount > 0) {
-		for (int i = 0; i < selectedCount; i++) {
-			if (CP_Input_GetMouseX() >= 1000 / (float)(selectedCount + 1) + cardWidthS - 100 && CP_Input_GetMouseX() <= 1000 / (float)(selectedCount + 1) + cardWidthS + 100) {
-				if (CP_Input_GetMouseY() >= 150 && CP_Input_GetMouseY() <= 450) {
-					if (CP_Input_MouseClicked()) {
-						//mana, selected count, handCheck
-						nCheck = 0;
-						for (int j = 0; j < 5; j++) {
-							if (handCheckP[j] == 1 && nCheck == i) {
-								player.mana += hand[j].mana;
-								handCheckP[j] = 0;
-								break;
-							}
-							if (handCheckP[j] == 1) {
-								nCheck += 1;
-							}
-						}
-						selectedCount -= 1;//might not work
-					}
-				}
-			}
-			cardWidthS = 1000 / (float)(selectedCount + 1) + cardWidthS;
-		}
-	}
-	
+	//selected hand collision
+	handsCollision(selectedCount,handCheckP,playerPtr,hand);
+
 	//draw hand src
 	drawHandSrc(handCheckP, selectedCount);
 

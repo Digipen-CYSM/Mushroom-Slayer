@@ -23,3 +23,5 @@ CardType* drawCards(CardType* deck, int numCards, int fCheck);
 void drawHandSrc(int* handCheck, int selectedCount);
 void attackCard(Enemy* enemy, int damage);
 void defenceCard(int defence, Player* player);
+void handuCollision(CardType* hand, Player* player, int* handCheckP);
+void handsCollision(int selectedCount, int* handCheckP, Player* player, CardType* hand);

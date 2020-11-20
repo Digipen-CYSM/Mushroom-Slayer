@@ -13,3 +13,4 @@ void hpAndManaLoad(void);
 int drawHealthSrc(Player player);
 void drawManaSrc(Player player);
 void drawDefenceSrc(Player player);
+void takeDamage(Player* player, int damage);
