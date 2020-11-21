@@ -8,3 +8,4 @@ typedef struct Enemy {
 Enemy mushRoom(void);
 void hpLoadE(void);
 void drawHealthSrcE(Enemy enemy);
+void enemyAttack(Player* player, int damage);

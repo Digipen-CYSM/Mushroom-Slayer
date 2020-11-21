@@ -19,7 +19,7 @@ int handCheck[5] = {0,0,0,0,0}; //change to dynamic
 int* handCheckP = handCheck;
 int enemyMove = 0,handSize = 5;
 CP_Image confirmButton;
-
+int turns = 1;
 void Game_Init(void)
 {
 	//load bg, char, enemy src
@@ -59,7 +59,7 @@ void Game_Update(void)
 
 	//draw background, char, enemy
 	drawBg();	
-
+	drawEnemyCard(turns);
 	//draw player health, mana, defence
 	drawHealthSrc(player);
 	drawManaSrc(player);
@@ -70,6 +70,7 @@ void Game_Update(void)
 
 
 	int selectedCount = 0;
+	int pressed = 0;
 	
 	//unselected hand collision
 	handuCollision(hand, playerPtr, handCheckP);
@@ -84,16 +85,17 @@ void Game_Update(void)
 	//draw cfm button
 	if (selectedCount > 0) {
 		drawConfrim();
+		pressed = 1;
 	}
 
 	//selected hand collision
-	handsCollision(selectedCount,handCheckP,playerPtr,hand);
+	handsCollision(selectedCount, handCheckP, playerPtr, hand);
 
 	//draw hand src
 	drawHandSrc(handCheckP, selectedCount);
 
 	//confirm button logic
-	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize,deck);
+	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);
 	
 	//enemy move
 	//if (enemyMove == 1) {

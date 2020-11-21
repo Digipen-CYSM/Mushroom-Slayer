@@ -1,4 +1,5 @@
 #include "cprocessing.h"
+#include "Character.h"
 CP_Image healthSrcE;
 typedef struct Enemy {
 	int health;	
@@ -34,3 +35,15 @@ void drawHealthSrcE(Enemy enemy) {
 }
 
 //enemy move here
+void enemyAttack(Player* player, int damage) {
+	if (player->defence < damage) {
+		player->health -= damage - player->defence;
+		player->defence = 0;
+	}
+	else if (player->defence > damage) {
+		player->defence -= damage;
+	}
+	else {
+		player->defence = 0;
+	}
+}
