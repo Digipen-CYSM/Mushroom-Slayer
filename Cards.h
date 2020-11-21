@@ -12,7 +12,7 @@ typedef struct CardType {
 	char *baseSrc;
 	char *manaSrc;
 	char* imgSrc;
-	bool abnormal_status;
+	bool poison;
 } CardType;
 
 CardType createAttackCard(void);

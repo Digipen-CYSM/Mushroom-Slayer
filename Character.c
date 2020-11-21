@@ -12,7 +12,7 @@ typedef struct Player {
 	int health;
 	int mana;
 	int defence;
-	bool abnormal_status;
+	bool poison;
 } Player;
 
 Player createCharacter(void) 

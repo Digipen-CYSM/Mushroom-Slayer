@@ -8,8 +8,8 @@ CardType create_antitode_card(void)
 {
 	CardType cards;
 	cards.type = 'p';
-	cards.abnormal_status = 0;
-	cards.imgSrc = "Assets/cards/attack1.png";
+	cards.poison = 0;
+	cards.imgSrc = "Assets/cards/antidote.png";
 	cards.mana = 2;
 	return cards;
 }
@@ -19,7 +19,7 @@ CardType enhance_attack_card(void)
 	CardType cards;
 	cards.type = 'a';
 	cards.ret = 2;
-	cards.imgSrc = "Assets/cards/attack1.png";
+	cards.imgSrc = "Assets/cards/attack_e.png";
 	cards.mana = 1;
 	return cards;
 }
