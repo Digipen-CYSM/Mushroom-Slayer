@@ -70,7 +70,7 @@ void drawDefenceSrc(Player player) {
 	else {
 		defenceHeight = 165;
 	}
-	defenceWidth = (float)(player.health % 10) * 40 + 30;
+	defenceWidth = 30;
 	for (int i = 0; i < player.defence; i++) {
 		CP_Image_Draw(defenceSrc, defenceWidth, defenceHeight, 40, 40, 255);
 		defenceWidth += 40;
