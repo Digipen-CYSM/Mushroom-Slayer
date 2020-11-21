@@ -19,7 +19,9 @@ int handCheck[5] = {0,0,0,0,0}; //change to dynamic
 int* handCheckP = handCheck;
 int enemyMove = 0,handSize = 5;
 CP_Image confirmButton;
-int turns = 1;
+int turn = 1;
+int* turns = &turn;
+
 void Game_Init(void)
 {
 	//load bg, char, enemy src

@@ -4,5 +4,5 @@
 void loadImg(void);
 void drawBg(void);
 void drawConfrim(void);
-void drawEnemyCard(int turns);
-void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize,CardType* deck, int pressed, int turns);
+void drawEnemyCard(int* turns);
+void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize,CardType* deck, int pressed, int* turns);

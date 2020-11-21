@@ -31,15 +31,15 @@ void drawConfrim(void) {
 	//show confirm button
 	CP_Image_Draw(confirmButton, 850, 100, 200, 50, 255);
 }
-void drawEnemyCard(int turns) {
-	if ((turns % 3) == 0) {
+void drawEnemyCard(int* turns) {
+	if ((*turns % 3) == 0) {
 		CP_Image_Draw(CP_Image_Load("Assets/cards/attack2.png"), 1550, 470, 150, 230, 255);
 	}
 	else {
 		CP_Image_Draw(CP_Image_Load("Assets/cards/attack1.png"), 1550, 470, 150, 230, 255);
 	}
 }
-void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize, CardType* deck, int pressed, int turns) {
+void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize, CardType* deck, int pressed, int* turns) {
 	if (pressed == 1) {
 		if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950 && CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
 			if (CP_Input_MouseClicked()) {
@@ -63,16 +63,17 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 					}
 				}
 				drawCards(deck, handSize, 0);
-				if (turns % 3 == 0) {
+				if (*turns % 3 == 0) {
 					enemyAttack(player, 3);
 				}
 				else {
 					enemyAttack(player, 1);
 				}
-				
+				*turns = *turns + 1;
+				(void)pressed;
 			}
-		}
-		turns = turns + 1;
-		pressed = 0;
+			
+		}		
+		//pressed = 0;
 	}
 }
