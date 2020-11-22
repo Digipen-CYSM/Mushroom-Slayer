@@ -1,8 +1,9 @@
 #pragma once
+#include "cprocessing.h"
+#include "Perks.h"
+#include "Character.h"
+#include "Enemy.h"
+#include "Cards.h"
+#include "game.h"
 
-typedef struct Perks
-{
-	int type;
-}Perks;
-
-void run_perk(void);
+void selected_perks(Player* player, CardType* hand);

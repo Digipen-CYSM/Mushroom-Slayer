@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 typedef struct Player {
+	int life;
 	int health;
 	int mana;
 	int defence;

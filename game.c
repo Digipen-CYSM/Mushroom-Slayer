@@ -7,6 +7,8 @@
 #include "GameLoad.h"
 #include "Character.h"
 #include "Enemy.h"
+#include "Perks.h"
+
 //global variable
 float time = 0, timeFloat;
 CardType* hand;
@@ -99,6 +101,11 @@ void Game_Update(void)
 	//confirm button logic
 	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);
 	
+	if (enemyPtr->health <= 0)
+	{
+		selected_perks(playerPtr, deck);
+	}
+
 	//enemy move
 	//if (enemyMove == 1) {
 	//	if (time < timeFloat + 3) {
@@ -115,10 +122,6 @@ void Game_Update(void)
 	//{
 	//	CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
 	//}	
-	
-	
-	
-
 }
 
 void Game_Exit(void) {

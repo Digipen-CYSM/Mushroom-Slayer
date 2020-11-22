@@ -1,8 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "cprocessing.h"
 #include "Perks.h"
 #include "Character.h"
 #include "Enemy.h"
 #include "Cards.h"
+#include "game.h"
+#include "GameLoad.h"
+#include "GameOver.h"
+
+int count = 1;
+bool condition = 0, selected = 0;
+int position = 0;
+
 
 CardType create_antitode_card(void)
 {
@@ -29,43 +39,180 @@ CardType enhance_dmg_card(void)
 	CardType cards;
 	cards.type = 'd';
 	cards.multiplier = 2;
-	cards.imgSrc = "Assets/cards/attack1.png";
+	cards.imgSrc = "Assets/cards/power_up.png";
 	cards.mana = 1;
 	return cards;
 }
 
-void healing(void)
+void generate_perks(unsigned int type, Player* player, CardType* hand)
 {
-
+	switch(type)
+	{
+		case 1:
+			//+1 Max Mana
+			player->mana += 1;
+			break;
+		case 2:
+			//+2 Max Mana
+			player->mana += 2;
+			break;
+		case 3:
+			//Revive once (add 1 life)
+			player->life += 1;
+			break;
+		case 4:
+			//+1 card in hand size
+			break;
+		case 5:
+			//+5 heal
+			player->health += 5;
+			break;
+		case 6:
+			//+10 heal
+			player->health += 10;
+			break;
+		case 7:
+			//Antidote card
+			create_antitode_card();
+			break;
+		case 8:
+			//Enhance attack card
+			enhance_attack_card();
+			break;
+		case 9:
+			//x2 attack for every attack card
+			enhance_dmg_card();
+			break;
+		default:
+			break;
+	}
 }
 
-void max_mana(void) 
+unsigned int generate_perk_image(unsigned int type, float x)
 {
-
+	switch (type)
+	{
+		case 1:
+			//+1 Max Mana
+			CP_Image_Draw(CP_Image_Load("Assets/perks/1_max_mana.png"), x, 400, 300, 450, 255);
+			break;
+		case 2:
+			//+2 Max Mana
+			CP_Image_Draw(CP_Image_Load("Assets/perks/1_max_mana.png"), x, 400, 300, 450, 255);
+			break;
+		case 3:
+			//Revive once (add 1 life)
+			CP_Image_Draw(CP_Image_Load("Assets/perks/revive.png"), x, 400, 300, 450, 255);
+			break;
+		case 4:
+			//+1 card in hand size
+			CP_Image_Draw(CP_Image_Load("Assets/perks/extra_card.png"), x, 400, 300, 450, 255);
+			break;
+		case 5:
+			//+5 heal
+			CP_Image_Draw(CP_Image_Load("Assets/perks/heal_5.png"), x, 400, 300, 450, 255);
+			break;
+		case 6:
+			//+10 heal
+			CP_Image_Draw(CP_Image_Load("Assets/perks/heal_10.png"), x, 400, 300, 450, 255);
+			break;
+		case 7:
+			//Antidote card
+			CP_Image_Draw(CP_Image_Load("Assets/perks/add_antidote.png"), x, 400, 300, 450, 255);
+			break;
+		case 8:
+			//Enhance attack card
+			CP_Image_Draw(CP_Image_Load("Assets/perks/enhance_attack.png"), x, 400, 300, 450, 255);
+			break;
+		case 9:
+			//x2 attack for every attack card
+			CP_Image_Draw(CP_Image_Load("Assets/perks/x2_attack.png"), x, 400, 300, 450, 255);
+			break;
+		default:
+			return 0;
+	}
+	return type;
 }
 
-void add_life(void)
+void load_perks()
 {
+	float sec = 0;
 
+	if (count == 1)
+	{
+		unsigned int random_no_1 = CP_Random_RangeInt(1, 9);
+		unsigned int random_no_2 = CP_Random_RangeInt(1, 9);
+		unsigned int random_no_3 = CP_Random_RangeInt(1, 9);
+		generate_perk_image(random_no_1, 450);
+		generate_perk_image(random_no_2, 850);
+		generate_perk_image(random_no_3, 1250);
+		sec = CP_System_GetSeconds();
+	}
+
+	if ((int)sec % 5 == 0 && sec != 0 && sec / 5)
+	{
+		count = 0;
+	}
 }
 
-void max_card(void)
+void selected_perks(Player* player, CardType* hand)
 {
+	const unsigned int level_1_perks[3] = {7, 8, 9};
+	unsigned int perks[3] = {0};
+	unsigned int selected_perk = 0;
+	float x_position = 450;
 
-}
+	drawBg();
+	drawConfrim();
+	load_perks();	
 
-void run_perk(void)
-{
+	//fixed perk for level 1
+	if (count == 0)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			perks[i] = generate_perk_image(level_1_perks[i], x_position);
+			x_position += 400;
+		}
+	}
 
-}
+	float x_clickposition = 450;
+	
+	//detect which perk user select
+	for (int i = 0; i < 3; i++)
+	{
+		if (CP_Input_GetMouseX() >= (x_clickposition - 150) + ( i * 350 ) && CP_Input_GetMouseX() <= (x_clickposition + 150) + (i * 350))
+		{
+			if (CP_Input_GetMouseY() >= 175 && CP_Input_GetMouseY() <= 625)
+			{
+				if (CP_Input_MouseClicked())
+				{
+					selected_perk = perks[i];
+					position = i;
+					condition = true;
+				}
+			}
+		}
+	}
 
-void random_generated_perks(void)
-{
-
-}
-
-void selected_perks(void)
-{
-
+	//Highlight selected perks
+	if (condition == true)
+	{
+		CP_Image_Draw(CP_Image_Load("Assets/perks/select_perks.png"), x_clickposition + (position * 400), 400, 300, 450, 255);
+		selected = true;
+	}
+	
+	//Confirm button
+	if (selected == true)
+	{
+		if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950 && CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125)
+		{
+			if (CP_Input_MouseClicked())
+			{
+				generate_perks(selected_perk, player, hand);
+				CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
+			}
+		}
+	}
 }
 

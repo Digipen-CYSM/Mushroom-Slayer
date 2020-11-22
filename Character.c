@@ -9,6 +9,7 @@ CP_Image manaSrc[10];
 char manaStr2[10];
 
 typedef struct Player {
+	int life;
 	int health;
 	int mana;
 	int defence;
@@ -18,6 +19,7 @@ typedef struct Player {
 Player createCharacter(void) 
 {
 	Player player1;
+	player1.life = 1;
 	player1.health = 20;
 	player1.mana = 3;
 	player1.defence = 0;
