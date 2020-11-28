@@ -5,13 +5,15 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Cards.h"
-#include "game.h"
 #include "GameLoad.h"
 #include "GameOver.h"
-
+#include "level1_1.h"
 int count = 1;
 bool condition = 0, selected = 0;
 int position = 0;
+unsigned int perks[3] = { 0 };
+unsigned int selected_perk = 0;
+
 
 
 CardType create_antitode_card(void)
@@ -61,6 +63,7 @@ void generate_perks(unsigned int type, Player* player, CardType* hand)
 			player->life += 1;
 			break;
 		case 4:
+			//player->handSize += 1;
 			//+1 card in hand size
 			break;
 		case 5:
@@ -73,7 +76,9 @@ void generate_perks(unsigned int type, Player* player, CardType* hand)
 			break;
 		case 7:
 			//Antidote card
-			create_antitode_card();
+			player->deckSize += 1;
+			addCardToDeck(hand, player->deckSize, create_antitode_card());
+			
 			break;
 		case 8:
 			//Enhance attack card
@@ -155,11 +160,9 @@ void load_perks()
 	}
 }
 
-void selected_perks(Player* player, CardType* hand)
+void selected_perks(Player* player, CardType* deck)
 {
 	const unsigned int level_1_perks[3] = {7, 8, 9};
-	unsigned int perks[3] = {0};
-	unsigned int selected_perk = 0;
 	float x_position = 450;
 
 	drawBg();
@@ -209,8 +212,14 @@ void selected_perks(Player* player, CardType* hand)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				generate_perks(selected_perk, player, hand);
-				CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
+				generate_perks(selected_perk, player, deck);
+
+				//should move to create antidote switch case
+				//CardType ant = create_antitode_card();
+				//addCardToDeck(deck, player->deckSize + 1, ant);
+				//player->deckSize += 1;
+
+				CP_Engine_SetNextGameState(level1_1_Init, level1_1_Update, level1_1_Exit);
 			}
 		}
 	}

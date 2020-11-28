@@ -2,19 +2,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
-
+#include "Character.h"
 CP_Image healthSrc;
 CP_Image defenceSrc;
 CP_Image manaSrc[10];
 char manaStr2[10];
 
-typedef struct Player {
-	int life;
-	int health;
-	int mana;
-	int defence;
-	bool poison;
-} Player;
 
 Player createCharacter(void) 
 {
@@ -23,6 +16,9 @@ Player createCharacter(void)
 	player1.health = 20;
 	player1.mana = 3;
 	player1.defence = 0;
+	player1.handSize = 5;
+	player1.deckSize = 10;
+	playerPtr = &player1;
 	return player1;
 }
 

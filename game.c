@@ -10,22 +10,18 @@
 #include "Perks.h"
 
 //global variable
-float time = 0, timeFloat;
-CardType* hand;
-CardType* deck;
-Player* playerPtr;
-Player player;
-Enemy* enemyPtr;
-Enemy enemy;
-int handCheck[5] = {0,0,0,0,0}; //change to dynamic
-int* handCheckP = handCheck;
-int enemyMove = 0,handSize = 5;
-CP_Image confirmButton;
-int turn = 1;
-int* turns = &turn;
+
 
 void Game_Init(void)
 {
+	memset(handCheck, 0, sizeof(int) * 5);
+	handCheckP = handCheck;
+	enemyMove = 0;
+	handSize = 5;
+	turn = 1;
+	turns = &turn;
+	time = 0;
+
 	//load bg, char, enemy src
 	loadImg();
 
@@ -41,7 +37,7 @@ void Game_Init(void)
 	deck = generateDeck();
 
 	//generate card in hand
-	hand = drawCards(deck, 5, 1);
+	hand = drawCards(deck, playerPtr->handSize, 1);
 
 	//load deck img src
 	loadDeckImg(deck, 10);
@@ -96,6 +92,7 @@ void Game_Update(void)
 	handsCollision(selectedCount, handCheckP, playerPtr, hand);
 
 	//draw hand src
+	drawDeck(deckPtr, playerPtr->deckSize);
 	drawHandSrc(handCheckP, selectedCount);
 
 	//confirm button logic
@@ -105,23 +102,9 @@ void Game_Update(void)
 	{
 		selected_perks(playerPtr, deck);
 	}
-
-	//enemy move
-	//if (enemyMove == 1) {
-	//	if (time < timeFloat + 3) {
-	//		CP_Image_Draw(handS[0][0], 1500, 300, 200, 300, 255); //card base
-	//		CP_Image_Draw(handS[0][1], 1500, 407, 170, 80, 255); //card value
-	//		CP_Image_Draw(handS[0][2], 1500 - 67, 170, 41, 23, 255); //card mana
-	//	}
-	//	else {
-	//		enemyMove = 0;
-	//		pHealth -= 3;
-	//	}
-	//}
-	//if (pHealth == 0)
-	//{
-	//	CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
-	//}	
+	char print[100];
+	sprintf_s(print, 100, "%d", player.deckSize);
+	CP_Font_DrawText(print, 830, 25);
 }
 
 void Game_Exit(void) {

@@ -5,6 +5,7 @@
 #include "Cards.h"
 #include "Character.h"
 #include "Enemy.h"
+#include "Perks.h"
 CP_Image confirmButton, backGround, enemyImg, healthImg, playerImg;
 
 
@@ -43,14 +44,14 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 	if (pressed == 1) {
 		if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950 && CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
 			if (CP_Input_MouseClicked()) {
+				int damage = 0, defence = 0;
 				for (int i = 0; i < handSize; i++) {
 					if (handCheck[i] == 1) {
 						if (hand[i].type == 'a') {
-							attackCard(enemy, hand[i].ret);
-
+							damage += hand[i].ret;
 						}
 						else if (hand[i].type == 'd') {
-							defenceCard(hand[i].ret, player);
+							defence += hand[i].ret;							
 						}
 						else
 						{
@@ -59,9 +60,11 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 						}
 						handCheck[i] = 0;
 						player->mana += hand[i].mana;
-
+						
 					}
 				}
+				attackCard(enemy, damage);
+				defenceCard(defence, player);
 				drawCards(deck, handSize, 0);
 				if (*turns % 3 == 0) {
 					enemyAttack(player, 3);
@@ -69,6 +72,9 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 				else {
 					enemyAttack(player, 1);
 				}
+				
+				//after marcus done animation uncomment
+				//player->defence = 0;
 				*turns = *turns + 1;
 				(void)pressed;
 			}

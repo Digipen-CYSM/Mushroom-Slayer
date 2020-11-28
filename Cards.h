@@ -21,7 +21,12 @@ void loadDeckImg(CardType* deckp, int numDeck);
 CardType* generateDeck(void);
 CardType* drawCards(CardType* deck, int numCards, int fCheck);
 void drawHandSrc(int* handCheck, int selectedCount);
+void drawDeck(CardType* deck, int numDeck);
 void attackCard(Enemy* enemy, int damage);
 void defenceCard(int defence, Player* player);
 void handuCollision(CardType* hand, Player* player, int* handCheckP);
 void handsCollision(int selectedCount, int* handCheckP, Player* player, CardType* hand);
+void addCardToDeck(CardType* deckp, int deckSize, CardType card);
+
+CardType* deckPtr;
+CardType* handPtr;

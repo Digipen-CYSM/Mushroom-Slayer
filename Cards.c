@@ -4,12 +4,10 @@
 #include "Cards.h"
 #include "Enemy.h"
 #include "Character.h"
-#include "game.h"
 
-CardType* deckPtr;
-CardType* handPtr;
 int* handRng;
-int rCheck, rng, deckSize,handSize;
+int rCheck, deckSize,handSize;
+unsigned int rng;
 CP_Image* deckSrc;
 
 
@@ -62,14 +60,19 @@ CardType* drawCards(CardType* deckp,int numCards,int fCheck) {
 		handPtr = (CardType*)malloc(numCards * sizeof(CardType));
 		handRng = (int*)malloc(numCards * sizeof(int));
 	}
+	else if (fCheck == 2) {
+		realloc(handPtr, numCards * sizeof(CardType));
+		realloc(handRng, numCards * sizeof(int));
+		
+	}
 	
 	for (int i = 0; i < numCards; i++) {
 		rCheck = 1;
 		while (rCheck == 1) {
 			rCheck = 0;
-			rng = CP_Random_RangeInt(0, deckSize-1);
+			rng = CP_Random_RangeInt(0, playerPtr->deckSize-1);
 			for (int j = 0; j < numCards; j++) {
-				if (handRng[j] == rng && i != 0) {
+				if (handRng[j] == (int)rng && i != 0 && rng <= 0) {
 					rCheck = 1;
 				}
 			}
@@ -87,6 +90,13 @@ void loadDeckImg(CardType* deckp,int numDeck) {
 	}
 }
 
+void addCardToDeck(CardType* deckp, int ndeckSize, CardType card) {
+	realloc(deckp, ndeckSize * sizeof(CardType));
+	deckp[ndeckSize-1] = card;
+	loadDeckImg(deckp, ndeckSize);
+	//return deckB;
+}
+
 void drawHandSrc(int* handCheck,int selectedCount) {
 	float cardWidth = 495, cardWidthS = 350;
 	for (int i = 0; i < handSize; i++) {		
@@ -98,6 +108,14 @@ void drawHandSrc(int* handCheck,int selectedCount) {
 			CP_Image_Draw(deckSrc[handRng[i]], cardWidthS, 300, 200, 300, 255);
 		}
 		cardWidth += 135;
+	}
+}
+//test
+void drawDeck(CardType* deck, int numDeck) {
+	float cardWidth = 100;
+	for (int i = 0; i < numDeck; i++) {
+		CP_Image_Draw(deckSrc[i], cardWidth, 400, 100, 170, 255);
+		cardWidth += 60;
 	}
 }
 

@@ -8,7 +8,7 @@ typedef struct Enemy {
 Enemy mushRoom(void)
 {
 	Enemy mushroom;
-	mushroom.health = 20;
+	mushroom.health = 5;
 	return mushroom;
 }
 
