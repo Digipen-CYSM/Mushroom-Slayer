@@ -8,9 +8,10 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Perks.h"
+#include <stdlib.h>
 
 //global variable
-
+int timeCheck = 0;
 
 void Game_Init(void)
 {
@@ -34,10 +35,11 @@ void Game_Init(void)
 	enemyPtr = &enemy;
 
 	//generate deck array
-	deck = generateDeck();
+	deck = generateDeck(deck);
 
 	//generate card in hand
-	hand = drawCards(deck, playerPtr->handSize, 1);
+	hand = (CardType*)malloc(playerPtr->handSize * sizeof(CardType));
+	drawCards(deck, playerPtr->handSize, 1,hand);
 
 	//load deck img src
 	loadDeckImg(deck, 10,1);
@@ -50,12 +52,15 @@ void Game_Init(void)
 
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
+
+	
 }
 
 
 void Game_Update(void)
 {	
 	time += CP_System_GetDt();
+	//animation for card draw
 
 	//draw background, char, enemy
 	drawBg();	
@@ -92,19 +97,21 @@ void Game_Update(void)
 	handsCollision(selectedCount, handCheckP, playerPtr, hand);
 
 	//draw hand src
-	drawDeck(deckPtr, playerPtr->deckSize);
-	drawHandSrc(handCheckP, selectedCount);
+	drawDeck(deck, playerPtr->deckSize);
+	if ((int)time > 2) {
+		drawHandSrc(handCheckP, selectedCount);
+	}
+	
 
 	//confirm button logic
 	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);
-	
+
 	if (enemyPtr->health <= 0)
 	{
 		selected_perks(playerPtr, deck);
 	}
-	char print[100];
-	sprintf_s(print, 100, "%d", player.deckSize);
-	CP_Font_DrawText(print, 830, 25);
+	
+	
 }
 
 void Game_Exit(void) {

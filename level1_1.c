@@ -8,18 +8,24 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Perks.h"
+#include <stdlib.h>
 //global variable
 
 void level1_1_Init(void){
 	//load bg, char, enemy src
 	loadImg();
 
+	free(hand);
+	hand = (CardType*)malloc(playerPtr->handSize * sizeof(CardType));
 	
-	
-	drawCards(deckPtr, playerPtr->handSize, 2);
+	drawCards(deck, playerPtr->handSize, 2,hand);
+
+	//create enemy
+	enemy = mushRoom();
+	enemyPtr = &enemy;
 
 	//load deck img src
-	loadDeckImg(deckPtr, playerPtr->deckSize,0);
+	loadDeckImg(deck, playerPtr->deckSize,0);
 
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
@@ -27,6 +33,15 @@ void level1_1_Init(void){
 
 void level1_1_Update(void) {
 
+	drawBg();
+	drawEnemyCard(turns);
+	//draw player health, mana, defence
+	drawHealthSrc(player);
+	drawManaSrc(player);
+	drawDefenceSrc(player);
+
+	//draw enemy hp
+	drawHealthSrcE(enemy);
 
 	int selectedCount = 0;
 	int pressed = 0;
@@ -46,7 +61,7 @@ void level1_1_Update(void) {
 		drawConfrim();
 		pressed = 1;
 	}
-	drawDeck(deckPtr, playerPtr->deckSize);
+	drawDeck(deck, playerPtr->deckSize);
 	//selected hand collision
 	handsCollision(selectedCount, handCheckP, playerPtr, hand);
 	drawHandSrc(handCheckP, selectedCount);

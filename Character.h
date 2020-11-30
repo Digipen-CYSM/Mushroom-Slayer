@@ -9,6 +9,7 @@ typedef struct Player {
 	int defence;	
 	int handSize;
 	int deckSize;
+	int oMana;
 } Player;
 
 Player createCharacter(void);

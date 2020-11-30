@@ -5,28 +5,24 @@
 #include "Enemy.h"
 #include "Character.h"
 
+
 int* handRng;
 int rCheck, deckSize,handSize;
-unsigned int rng;
+unsigned int random_no;
 CP_Image* deckSrc;
 
-
-CardType createAttackCard(void) {//parameter for value and mana
-	CardType cards;
-	cards.type = 'a';
-	cards.ret = 1;
-	cards.imgSrc = "Assets/cards/attack1.png";
-	cards.mana = 1;
-	return cards;
+void createAttackCard(CardType* cards) {//parameter for value and mana
+	cards->type = 'a';
+	cards->ret = 1;
+	cards->imgSrc = "Assets/cards/attack1.png";
+	cards->mana = 1;
 }
 
-CardType createDefenceCard(void) {//parameter for value and mana
-	CardType cards;
-	cards.type = 'd';
-	cards.ret = 2;
-	cards.mana = 1;
-	cards.imgSrc = "Assets/cards/defence1.png";
-	return cards;
+void createDefenceCard(CardType* cards) {//parameter for value and mana
+	cards->type = 'd';
+	cards->ret = 2;
+	cards->mana = 1;
+	cards->imgSrc = "Assets/cards/defence1.png";
 }
 
 void attackCard(Enemy* enemy,int damage) {
@@ -39,48 +35,55 @@ void defenceCard(int defence, Player* player) {
 }
 
 //generate the deck and create pointer pointing to the deck
-CardType* generateDeck(void) {
+CardType* generateDeck(CardType* deckPtr) {
 	deckSize = 10;
 	deckPtr = (CardType*)malloc(deckSize * sizeof(CardType));
 	for (int i = 0; i < deckSize; i++) {
 		if (i < 5) {
-			deckPtr[i] = createAttackCard();
+			createAttackCard(&deckPtr[i]);
 		}
 		else {
-			deckPtr[i] = createDefenceCard();
+			createDefenceCard(&deckPtr[i]);
 		}
 	}
 	return deckPtr;
 }
-
 //draw a new set of cards and put it into handRng and handPtr
-CardType* drawCards(CardType* deckp,int numCards,int fCheck) {
-	handSize = numCards;
-	if (fCheck == 1) {
-		handPtr = (CardType*)malloc(numCards * sizeof(CardType));
-		handRng = (int*)malloc(numCards * sizeof(int));
-	}
-	else if (fCheck == 2) {
-		realloc(handPtr, numCards * sizeof(CardType));
-		realloc(handRng, numCards * sizeof(int));
-		
-	}
+void drawCards(CardType* deckp,int numCards,int fCheck,CardType* handPtr) {
+	//handSize = numCards;
+	int j1;
 	
+	free(handRng);
+	//free(handPtr);
+	
+	handRng = (int*)malloc(numCards * sizeof(int));
+	//*handPtr = (CardType*)malloc(numCards * sizeof(CardType));
+
 	for (int i = 0; i < numCards; i++) {
-		rCheck = 1;
-		while (rCheck == 1) {
-			rCheck = 0;
-			rng = CP_Random_RangeInt(0, playerPtr->deckSize-1);
-			for (int j = 0; j < numCards; j++) {
-				if (handRng[j] == (int)rng && i != 0 && rng <= 0) {
-					rCheck = 1;
+		if (i == 0) {
+			random_no = CP_Random_RangeInt(0, playerPtr->deckSize - 1);
+			handRng[i] = random_no;
+			handPtr[i] = deckp[random_no];
+
+		}
+		else {
+			random_no = CP_Random_RangeInt(0, playerPtr->deckSize - 1);
+			j1 = 0;
+			while (j1 < i) {
+				if ((int)random_no == handRng[j1]) {
+					random_no = CP_Random_RangeInt(0, playerPtr->deckSize - 1);
+				}
+				else {
+					j1++;
 				}
 			}
+			handRng[i] = random_no;
+			handPtr[i] = deckp[random_no];
 		}
-		handRng[i] = rng;
-		handPtr[i] = deckp[rng];
 	}
-	return handPtr;
+	for (int i = 0; i < 5; i++) {
+		fCheck = handPtr[i].mana;
+	}
 }
 
 void loadDeckImg(CardType* deckp,int numDeck, int nCheck) {
@@ -88,7 +91,8 @@ void loadDeckImg(CardType* deckp,int numDeck, int nCheck) {
 		deckSrc = (CP_Image*)malloc(numDeck * sizeof(CP_Image));
 	}
 	else {
-		realloc(deckSrc, numDeck);
+		free(deckSrc);
+		deckSrc = (CP_Image*)malloc(numDeck * sizeof(CP_Image));
 	}
 	for (int i=0; i < numDeck; i++) {
 		deckSrc[i] = CP_Image_Load(deckp[i].imgSrc);
@@ -98,8 +102,6 @@ void loadDeckImg(CardType* deckp,int numDeck, int nCheck) {
 void addCardToDeck(CardType* deckp, int ndeckSize, CardType card) {
 	realloc(deckp, ndeckSize * sizeof(CardType));
 	deckp[ndeckSize-1] = card;
-	//loadDeckImg(deckp, ndeckSize);
-	//return deckB;
 }
 
 void drawHandSrc(int* handCheck,int selectedCount) {
@@ -114,6 +116,11 @@ void drawHandSrc(int* handCheck,int selectedCount) {
 		}
 		cardWidth += 135;
 	}
+}
+
+void drawHandAnimation(CardType* handPtr,float time) {
+	//height is 300, 0 is the one that shld increment
+	CP_Image_Draw(deckSrc[handRng[0]], 0, 300, 200, 300, 255);
 }
 
 void drawDeck(CardType* deck, int numDeck) {

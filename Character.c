@@ -15,6 +15,7 @@ Player createCharacter(void)
 	player1.life = 1;
 	player1.health = 20;
 	player1.mana = 3;
+	player1.oMana = 3;
 	player1.defence = 0;
 	player1.handSize = 5;
 	player1.deckSize = 10;
