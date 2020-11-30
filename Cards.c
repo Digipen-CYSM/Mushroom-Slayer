@@ -4,10 +4,10 @@
 #include "Cards.h"
 #include "Enemy.h"
 #include "Character.h"
-
+#include <math.h>
 
 int* handRng;
-int rCheck, deckSize,handSize;
+int rCheck, deckSize;
 unsigned int random_no;
 CP_Image* deckSrc;
 
@@ -104,7 +104,7 @@ void addCardToDeck(CardType* deckp, int ndeckSize, CardType card) {
 	deckp[ndeckSize-1] = card;
 }
 
-void drawHandSrc(int* handCheck,int selectedCount) {
+void drawHandSrc(int* handCheck,int selectedCount,int handSize) {
 	float cardWidth = 495, cardWidthS = 350;
 	for (int i = 0; i < handSize; i++) {		
 		if (handCheck[i] == 0) {
@@ -118,9 +118,49 @@ void drawHandSrc(int* handCheck,int selectedCount) {
 	}
 }
 
-void drawHandAnimation(CardType* handPtr,float time) {
-	//height is 300, 0 is the one that shld increment
-	CP_Image_Draw(deckSrc[handRng[0]], 0, 300, 200, 300, 255);
+void drawHandAnimation(CardType* handPtr,float time,int handSize) {
+	//for (int i = 0; i < handSize; i++) {
+	//double cardWidth = (495+i*135) * (double)time / 4000;
+	//	if (time < 4000 + i * 3000) {
+	//		CP_Image_Draw(deckSrc[handRng[i]], (float)cardWidth, 750, 150, 230, 255);
+	//	}
+	//}
+	if (time < 6000) {
+		CP_Image_Draw(deckSrc[handRng[0]], (float)(495 * (double)time / 6000), 750, 150, 230, 255);
+	}
+	
+	if (time > 6000 && time <12000) {
+		CP_Image_Draw(deckSrc[handRng[1]], (float)(630 * ((double)time-6000) / 6000), 750, 150, 230, 255);
+	}
+	if (time > 12000 && time < 18000) {
+		CP_Image_Draw(deckSrc[handRng[2]], (float)(765 * ((double)time - 12000) / 7000), 750, 150, 230, 255);
+	}
+	if (time > 18000 && time < 24000) {
+		CP_Image_Draw(deckSrc[handRng[3]], (float)(900 * ((double)time- 18000)/ 8000), 750, 150, 230, 255);
+	}
+	if (time > 24000 && time < 30000) {
+		CP_Image_Draw(deckSrc[handRng[4]], (float)(1035 * ((double)time - 24000) / 8000), 750, 150, 230, 255);
+	}
+	if (time > 6000) {
+		CP_Image_Draw(deckSrc[handRng[0]], 495, 750, 150, 230, 255);
+	}
+	if (time > 12000) {
+		CP_Image_Draw(deckSrc[handRng[1]], 630, 750, 150, 230, 255);
+	}
+	if (time > 18000) {
+		CP_Image_Draw(deckSrc[handRng[2]], 765, 750, 150, 230, 255);
+	}
+	if (time > 24000) {
+		CP_Image_Draw(deckSrc[handRng[3]], 900, 750, 150, 230, 255);
+	}
+	if (time > 30000) {
+		CP_Image_Draw(deckSrc[handRng[4]], 1035, 750, 150, 230, 255);
+	}
+	//CP_Image_Draw(deckSrc[handRng[1]], (630 * (double)time / 3400), 750, 150, 230, 255);
+	//CP_Image_Draw(deckSrc[handRng[2]], (765 * (double)time / 2800), 750, 150, 230, 255);
+	//CP_Image_Draw(deckSrc[handRng[3]], (900 * (double)time / 2200), 750, 150, 230, 255);
+	//CP_Image_Draw(deckSrc[handRng[4]], (1035 * (double)time / 1600), 750, 150, 230, 255);
+	
 }
 
 void drawDeck(CardType* deck, int numDeck) {

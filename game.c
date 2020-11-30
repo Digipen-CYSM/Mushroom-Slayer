@@ -12,6 +12,7 @@
 
 //global variable
 int timeCheck = 0;
+float gameStartTime = 0;
 
 void Game_Init(void)
 {
@@ -53,13 +54,15 @@ void Game_Init(void)
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
 
+	//inialize game start timer
+	gameStartTime = CP_System_GetMillis();
 	
 }
 
 
 void Game_Update(void)
 {	
-	time += CP_System_GetDt();
+	time += CP_System_GetMillis() - gameStartTime;
 	//animation for card draw
 
 	//draw background, char, enemy
@@ -98,10 +101,17 @@ void Game_Update(void)
 
 	//draw hand src
 	drawDeck(deck, playerPtr->deckSize);
-	if ((int)time > 2) {
-		drawHandSrc(handCheckP, selectedCount);
+	if ((int)time > 30000) {
+		drawHandSrc(handCheckP, selectedCount, playerPtr->handSize);
 	}
-	
+	else {
+		drawHandAnimation(hand, time,playerPtr->handSize);
+	}
+	char print[100];
+	CP_Settings_TextSize(80);
+
+	sprintf_s(print, 100, "%4f", time);
+	CP_Font_DrawText(print, 830, 100);
 
 	//confirm button logic
 	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);

@@ -64,7 +64,7 @@ void level1_1_Update(void) {
 	drawDeck(deck, playerPtr->deckSize);
 	//selected hand collision
 	handsCollision(selectedCount, handCheckP, playerPtr, hand);
-	drawHandSrc(handCheckP, selectedCount);
+	drawHandSrc(handCheckP, selectedCount, playerPtr->handSize);
 	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);
 }
 

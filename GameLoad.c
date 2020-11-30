@@ -67,15 +67,7 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 				attackCard(enemy, damage);
 				defenceCard(defence, player);
 				drawCards(deck, handSize, 0,hand);
-				char print[100];
-				CP_Settings_TextSize(50);
-				for (int i = 0; i < 5; i++) {
-					
-					sprintf_s(print, 100, "%d", hand[i].mana);
-					CP_Font_DrawText(print, 800 + (float)(i * 30), 100);
-					
-
-				}
+				
 				if (*turns % 3 == 0) {
 					enemyAttack(player, 3);
 				}
