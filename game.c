@@ -40,7 +40,7 @@ void Game_Init(void)
 	hand = drawCards(deck, playerPtr->handSize, 1);
 
 	//load deck img src
-	loadDeckImg(deck, 10);
+	loadDeckImg(deck, 10,1);
 
 	//load player hp and mana img src
 	hpAndManaLoad();

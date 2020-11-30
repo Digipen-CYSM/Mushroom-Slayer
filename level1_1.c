@@ -19,7 +19,7 @@ void level1_1_Init(void){
 	drawCards(deckPtr, playerPtr->handSize, 2);
 
 	//load deck img src
-	loadDeckImg(deckPtr, playerPtr->deckSize);
+	loadDeckImg(deckPtr, playerPtr->deckSize,0);
 
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");

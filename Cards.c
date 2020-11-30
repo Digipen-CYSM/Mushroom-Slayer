@@ -83,8 +83,13 @@ CardType* drawCards(CardType* deckp,int numCards,int fCheck) {
 	return handPtr;
 }
 
-void loadDeckImg(CardType* deckp,int numDeck) {
-	deckSrc = (CP_Image*)malloc(numDeck * sizeof(CP_Image));
+void loadDeckImg(CardType* deckp,int numDeck, int nCheck) {
+	if (nCheck == 1) {
+		deckSrc = (CP_Image*)malloc(numDeck * sizeof(CP_Image));
+	}
+	else {
+		realloc(deckSrc, numDeck);
+	}
 	for (int i=0; i < numDeck; i++) {
 		deckSrc[i] = CP_Image_Load(deckp[i].imgSrc);
 	}
@@ -93,7 +98,7 @@ void loadDeckImg(CardType* deckp,int numDeck) {
 void addCardToDeck(CardType* deckp, int ndeckSize, CardType card) {
 	realloc(deckp, ndeckSize * sizeof(CardType));
 	deckp[ndeckSize-1] = card;
-	loadDeckImg(deckp, ndeckSize);
+	//loadDeckImg(deckp, ndeckSize);
 	//return deckB;
 }
 
@@ -110,7 +115,7 @@ void drawHandSrc(int* handCheck,int selectedCount) {
 		cardWidth += 135;
 	}
 }
-//test
+
 void drawDeck(CardType* deck, int numDeck) {
 	float cardWidth = 100;
 	for (int i = 0; i < numDeck; i++) {

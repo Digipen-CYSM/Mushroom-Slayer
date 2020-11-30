@@ -17,7 +17,7 @@ typedef struct CardType {
 
 CardType createAttackCard(void);
 CardType createDefenceCard(void);
-void loadDeckImg(CardType* deckp, int numDeck);
+void loadDeckImg(CardType* deckp, int numDeck,int nCheck);
 CardType* generateDeck(void);
 CardType* drawCards(CardType* deck, int numCards, int fCheck);
 void drawHandSrc(int* handCheck, int selectedCount);
