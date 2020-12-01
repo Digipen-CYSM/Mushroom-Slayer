@@ -5,7 +5,8 @@ typedef struct Enemy {
 	int mana;
 } Enemy;
 
-Enemy mushRoom(void);
+Enemy mushRoomT(void);
+Enemy mushRoom1(void);
 void hpLoadE(void);
 void drawHealthSrcE(Enemy enemy);
 void enemyAttack(Player* player, int damage);

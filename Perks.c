@@ -165,7 +165,7 @@ void selected_perks(Player* player, CardType* deck)
 	const unsigned int level_1_perks[3] = {7, 8, 9};
 	float x_position = 450;
 
-	drawBg();
+	drawBg(0);
 	drawConfrim();
 	load_perks();	
 

@@ -25,14 +25,14 @@ void Game_Init(void)
 	time = 0;
 
 	//load bg, char, enemy src
-	loadImg();
+	loadImg(0);
 
 	//create character
 	player = createCharacter();
 	playerPtr = &player;
 
 	//create enemy
-	enemy = mushRoom();
+	enemy = mushRoomT();
 	enemyPtr = &enemy;
 
 	//generate deck array
@@ -66,7 +66,7 @@ void Game_Update(void)
 	//animation for card draw
 
 	//draw background, char, enemy
-	drawBg();	
+	drawBg(0);	
 	drawEnemyCard(turns);
 	//draw player health, mana, defence
 	drawHealthSrc(player);
@@ -125,5 +125,5 @@ void Game_Update(void)
 }
 
 void Game_Exit(void) {
-
+	*turns = 1;
 }

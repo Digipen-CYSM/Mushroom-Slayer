@@ -6,22 +6,31 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Perks.h"
-CP_Image confirmButton, backGround, enemyImg, healthImg, playerImg;
+CP_Image confirmButton, backGround[10], enemyImg, healthImg, playerImg;
 
 
-void loadImg(void) {
+void loadImg(int stage) {
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
 	//load background img
-	backGround = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
+	if (stage == 0) {
+		backGround[0] = CP_Image_Load("Assets/dojo/dojo.png");
+	}
+	else if (stage == 1) {
+		backGround[0] = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
+		backGround[1] = CP_Image_Load("Assets/BG/Village BG/Village BG2.png");
+		backGround[2] = CP_Image_Load("Assets/BG/Village BG/Village BG3.png");
+		backGround[3] = CP_Image_Load("Assets/BG/Village BG/Village BG4.png");
+	}
+	
 	//load enemy img
 	enemyImg = CP_Image_Load("Assets/enemy/ms1.png");
 
 	playerImg = CP_Image_Load("Assets/character/Character.png");
 }
 
-void drawBg(void) {
-	CP_Image_Draw(backGround, 850, 600, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight() + 300, 255);
+void drawBg(int frame) {
+	CP_Image_Draw(backGround[frame], 850, 600, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight() + 300, 255);
 	//enemy image
 	CP_Image_Draw(enemyImg, 1300, 470, 300, 400, 255);
 	//player image

@@ -5,10 +5,17 @@ typedef struct Enemy {
 	int health;	
 } Enemy;
 
-Enemy mushRoom(void)
+Enemy mushRoomT(void)
 {
 	Enemy mushroom;
 	mushroom.health = 5;
+	return mushroom;
+}
+
+Enemy mushRoom1(void)
+{
+	Enemy mushroom;
+	mushroom.health = 10;
 	return mushroom;
 }
 
