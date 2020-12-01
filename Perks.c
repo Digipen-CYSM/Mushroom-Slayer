@@ -8,7 +8,7 @@
 #include "GameLoad.h"
 #include "GameOver.h"
 #include "level1_1.h"
-int count = 1;
+
 bool condition = 0, selected = 0;
 int position = 0;
 unsigned int perks[3] = { 0 };
@@ -141,9 +141,7 @@ unsigned int generate_perk_image(unsigned int type, float x)
 
 void load_perks()
 {
-	float sec = 0;
-
-	if (count == 1)
+	if (perks_loading_count >= 1)
 	{
 		unsigned int random_no_1 = CP_Random_RangeInt(1, 9);
 		unsigned int random_no_2 = CP_Random_RangeInt(1, 9);
@@ -151,12 +149,12 @@ void load_perks()
 		generate_perk_image(random_no_1, 450);
 		generate_perk_image(random_no_2, 850);
 		generate_perk_image(random_no_3, 1250);
-		sec = CP_System_GetSeconds();
+		perks_loading_count--;
 	}
 
-	if ((int)sec % 5 == 0 && sec != 0 && sec / 5)
+	if (perks_loading_count <= 0)
 	{
-		count = 0;
+		perks_count_bool = 0;
 	}
 }
 
@@ -170,7 +168,7 @@ void selected_perks(Player* player, CardType* deck)
 	load_perks();	
 
 	//fixed perk for level 1
-	if (count == 0)
+	if (perks_count_bool == 0)
 	{
 		for (int i = 0; i < 3; i++)
 		{
