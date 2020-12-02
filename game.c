@@ -128,4 +128,5 @@ void Game_Update(void)
 
 void Game_Exit(void) {
 	*turns = 1;
+	freeImg(0);
 }
