@@ -30,20 +30,20 @@ void loadImg(int stage) {
 }
 
 void freeImg(int stage) {
-	CP_Image_Free(confirmButton);
+	CP_Image_Free(&confirmButton);
 	if (stage == 0) {
-		CP_Image_Free(backGround[0]);
+		CP_Image_Free(&backGround[0]);
 	}
 	else if (stage == 1) {
 		for (int i = 0; i < 4; i++) {
-			CP_Image_Free(backGround[i]);
+			CP_Image_Free(&backGround[i]);
 		}
 	}
 
 	//load enemy img
-	CP_Image_Free(enemyImg);
+	CP_Image_Free(&enemyImg);
 
-	CP_Image_Free(playerImg);
+	CP_Image_Free(&playerImg);
 
 }
 
