@@ -23,6 +23,8 @@ void Game_Init(void)
 	turn = 1;
 	turns = &turn;
 	time = 0;
+	perks_loading_count = 30;
+	perks_count_bool = 1;
 
 	//load bg, char, enemy src
 	loadImg(0);
@@ -126,4 +128,5 @@ void Game_Update(void)
 
 void Game_Exit(void) {
 	*turns = 1;
+	freeImg(0);
 }

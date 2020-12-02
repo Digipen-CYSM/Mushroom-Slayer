@@ -3,6 +3,9 @@
 #include "Character.h"
 #include "Cards.h"
 
+int perks_loading_count;
+bool perks_count_bool;
+
 void selected_perks(Player* player, CardType* hand);
 CardType enhance_attack_card(void);
 CardType enhance_dmg_card(void);

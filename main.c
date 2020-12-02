@@ -16,11 +16,9 @@
 #include "MainMenu.h"
 #include "digipenload.h"
 
-int main(void)
+void main(void)
 {
-	//test
 	CP_System_SetWindowSize(1700, 900);
 	CP_Engine_SetNextGameState(digipenload_init, digipenload_update, digipenload_exit);
 	CP_Engine_Run();
-	return 0;
 }

@@ -29,6 +29,24 @@ void loadImg(int stage) {
 	playerImg = CP_Image_Load("Assets/character/Character.png");
 }
 
+void freeImg(int stage) {
+	CP_Image_Free(&confirmButton);
+	if (stage == 0) {
+		CP_Image_Free(&backGround[0]);
+	}
+	else if (stage == 1) {
+		for (int i = 0; i < 4; i++) {
+			CP_Image_Free(&backGround[i]);
+		}
+	}
+
+	//load enemy img
+	CP_Image_Free(&enemyImg);
+
+	CP_Image_Free(&playerImg);
+
+}
+
 void drawBg(int frame) {
 	CP_Image_Draw(backGround[frame], 850, 600, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight() + 300, 255);
 	//enemy image
