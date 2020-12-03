@@ -12,6 +12,7 @@
 bool condition = 0, selected = 0;
 int position = 0;
 unsigned int perks[3] = { 0 };
+unsigned int random_perks[3] = { 0 };
 unsigned int selected_perk = 0;
 
 
@@ -52,11 +53,11 @@ void generate_perks(unsigned int type, Player* player, CardType* hand)
 	{
 		case 1:
 			//+1 Max Mana
-			player->mana += 1;
+			player->oMana += 1;
 			break;
 		case 2:
 			//+2 Max Mana
-			player->mana += 2;
+			player->oMana += 2;
 			break;
 		case 3:
 			//Revive once (add 1 life)
@@ -64,7 +65,7 @@ void generate_perks(unsigned int type, Player* player, CardType* hand)
 			break;
 		case 4:
 			//player->handSize += 1;
-			//+1 card in hand size
+			player->handSize += 1;
 			break;
 		case 5:
 			//+5 heal
@@ -159,6 +160,16 @@ void load_perks()
 	}
 }
 
+void free_perks_images()
+{
+
+}
+
+void clear_perks()
+{
+
+}
+
 void selected_perks(Player* player, CardType* deck)
 {
 	const unsigned int level_1_perks[3] = {7, 8, 9};
@@ -178,14 +189,18 @@ void selected_perks(Player* player, CardType* deck)
 		}
 	}
 
-	//random perk
-	if (perks_count_bool == 0 && perks_level_count >= 1)
+	if (perks_count_bool == 1 && perks_level_count >= 1)
 	{
-		unsigned int random_perks[3] = { 0 };
 		for (int i = 0; i < 3; i++)
 		{
 			random_perks[i] = CP_Random_RangeInt(1, 9);
 		}
+	}
+
+	//random perk
+	if (perks_count_bool == 0 && perks_level_count >= 1)
+	{
+		
 		for (int i = 0; i < 3; i++)
 		{
 			perks[i] = generate_perk_image(random_perks[i], x_position);
@@ -236,6 +251,7 @@ void selected_perks(Player* player, CardType* deck)
 				else
 				{
 					//next level
+					CP_Engine_SetNextGameState(level1_1_Init, level1_1_Update, level1_1_Exit);
 				}
 			}
 		}
