@@ -39,7 +39,7 @@ CardType enhance_attack_card(void)
 CardType enhance_dmg_card(void)
 {
 	CardType cards;
-	cards.type = 'd';
+	cards.type = 'e';
 	cards.multiplier = 2;
 	cards.imgSrc = "Assets/cards/power_up.png";
 	cards.mana = 1;
@@ -78,15 +78,16 @@ void generate_perks(unsigned int type, Player* player, CardType* hand)
 			//Antidote card
 			player->deckSize += 1;
 			addCardToDeck(hand, player->deckSize, create_antitode_card());
-			
 			break;
 		case 8:
 			//Enhance attack card
-			enhance_attack_card();
+			player->deckSize += 1;
+			addCardToDeck(hand, player->deckSize, enhance_attack_card());
 			break;
 		case 9:
 			//x2 attack for every attack card
-			enhance_dmg_card();
+			player->deckSize += 1;
+			addCardToDeck(hand, player->deckSize, enhance_dmg_card());
 			break;
 		default:
 			break;
@@ -167,12 +168,23 @@ void selected_perks(Player* player, CardType* deck)
 	drawConfrim();
 	load_perks();	
 
-	//fixed perk for level 1
-	if (perks_count_bool == 0)
+	//fixed perk for tutorial
+	if (perks_count_bool == 0 && perks_level_count == 0)
 	{
 		for (int i = 0; i < 3; i++)
 		{
 			perks[i] = generate_perk_image(level_1_perks[i], x_position);
+			x_position += 400;
+		}
+	}
+
+	//random perk
+	if (perks_count_bool == 0 && perks_level_count >= 1)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			unsigned int random_perks = CP_Random_RangeInt(1, 9);
+			perks[i] = generate_perk_image(random_perks, x_position);
 			x_position += 400;
 		}
 	}

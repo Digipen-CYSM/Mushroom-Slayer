@@ -3,7 +3,7 @@
 #include "Character.h"
 #include "Cards.h"
 
-int perks_loading_count;
+int perks_loading_count, perks_level_count;
 bool perks_count_bool;
 
 void selected_perks(Player* player, CardType* hand);

@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Perks.h"
+
 CP_Image confirmButton, backGround[10], enemyImg[10], healthImg, playerImg;
 
 
@@ -91,7 +92,7 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 	if (pressed == 1) {
 		if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950 && CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
 			if (CP_Input_MouseClicked()) {
-				int damage = 0, defence = 0;
+				int damage = 0, defence = 0, multiplier = 1;
 				for (int i = 0; i < handSize; i++) {
 					if (handCheck[i] == 1) {
 						if (hand[i].type == 'a') {
@@ -100,16 +101,41 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 						else if (hand[i].type == 'd') {
 							defence += hand[i].ret;							
 						}
+						else if (hand[i].type == 'e')
+						{
+							multiplier = hand[i].multiplier;
+						}
+						else if (hand[i].type == 'p')
+						{
+							poison = hand[i].poison;
+						}
 						else
 						{
 							handCheck[i] = 0;
 							break;
 						}
 						handCheck[i] = 0;
-						
-						
 					}
 				}
+				damage = damage * multiplier;
+				if (perks_level_count >= 1)
+				{
+					if (round_count % 3 == 0)
+					{
+						poison = true;
+					}
+
+					if (poison == false)
+					{
+						round_count++;
+					}
+					else
+					{
+						damage += 1;
+
+					}
+				}
+				
 				player->mana = player->oMana;
 				attackCard(enemy, damage);
 				defenceCard(defence, player);
@@ -121,6 +147,8 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 				else {
 					enemyAttack(player, 1);
 				}
+
+				
 				
 				//after marcus done animation uncomment
 				//player->defence = 0;

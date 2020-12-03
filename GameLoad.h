@@ -1,6 +1,10 @@
 #include "Cards.h"
 #include "Character.h"
 #include "Enemy.h"
+
+int round_count;
+bool poison;
+
 void loadImg(int stage);
 void drawBg(int frame);
 void drawConfrim(void);
