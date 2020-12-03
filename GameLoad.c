@@ -6,7 +6,7 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Perks.h"
-CP_Image confirmButton, backGround[10], enemyImg, healthImg, playerImg;
+CP_Image confirmButton, backGround[10], enemyImg[10], healthImg, playerImg;
 
 
 void loadImg(int stage) {
@@ -15,16 +15,38 @@ void loadImg(int stage) {
 	//load background img
 	if (stage == 0) {
 		backGround[0] = CP_Image_Load("Assets/dojo/dojo.png");
+		enemyImg[0] = CP_Image_Load("Assets/enemy/MsDummy/msdummy.png");
 	}
 	else if (stage == 1) {
 		backGround[0] = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
 		backGround[1] = CP_Image_Load("Assets/BG/Village BG/Village BG2.png");
 		backGround[2] = CP_Image_Load("Assets/BG/Village BG/Village BG3.png");
 		backGround[3] = CP_Image_Load("Assets/BG/Village BG/Village BG4.png");
+		enemyImg[0] = CP_Image_Load("Assets/enemy/ms1.png");
+		enemyImg[1] = CP_Image_Load("Assets/enemy/ms2.png");
+		enemyImg[2] = CP_Image_Load("Assets/enemy/ms3.png");
+		enemyImg[3] = CP_Image_Load("Assets/enemy/ms4.png");
 	}
-	
-	//load enemy img
-	enemyImg = CP_Image_Load("Assets/enemy/ms1.png");
+	else if (stage == 2) {
+		backGround[0] = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
+		backGround[1] = CP_Image_Load("Assets/BG/Village BG/Village BG2.png");
+		backGround[2] = CP_Image_Load("Assets/BG/Village BG/Village BG3.png");
+		backGround[3] = CP_Image_Load("Assets/BG/Village BG/Village BG4.png");
+		enemyImg[0] = CP_Image_Load("Assets/enemy/MsWizard/mswizard1.png");
+		enemyImg[1] = CP_Image_Load("Assets/enemy/MsWizard/mswizard2.png");
+		enemyImg[2] = CP_Image_Load("Assets/enemy/MsWizard/mswizard3.png");
+		enemyImg[3] = CP_Image_Load("Assets/enemy/MsWizard/mswizard4.png");
+	}
+	else if (stage == 3) {
+		backGround[0] = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
+		backGround[1] = CP_Image_Load("Assets/BG/Village BG/Village BG2.png");
+		backGround[2] = CP_Image_Load("Assets/BG/Village BG/Village BG3.png");
+		backGround[3] = CP_Image_Load("Assets/BG/Village BG/Village BG4.png");
+		enemyImg[0] = CP_Image_Load("Assets/enemy/MsBoss/msboss1.png");
+		enemyImg[1] = CP_Image_Load("Assets/enemy/MsBoss/msboss2.png");
+		enemyImg[2] = CP_Image_Load("Assets/enemy/MsBoss/msboss3.png");
+		enemyImg[3] = CP_Image_Load("Assets/enemy/MsBoss/msboss4.png");
+	}
 
 	playerImg = CP_Image_Load("Assets/character/Character.png");
 }
@@ -33,16 +55,14 @@ void freeImg(int stage) {
 	CP_Image_Free(&confirmButton);
 	if (stage == 0) {
 		CP_Image_Free(&backGround[0]);
+		CP_Image_Free(&enemyImg[0]);
 	}
-	else if (stage == 1) {
+	else{
 		for (int i = 0; i < 4; i++) {
 			CP_Image_Free(&backGround[i]);
+			CP_Image_Free(&enemyImg[i]);
 		}
 	}
-
-	//load enemy img
-	CP_Image_Free(&enemyImg);
-
 	CP_Image_Free(&playerImg);
 
 }
@@ -50,7 +70,7 @@ void freeImg(int stage) {
 void drawBg(int frame) {
 	CP_Image_Draw(backGround[frame], 850, 600, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight() + 300, 255);
 	//enemy image
-	CP_Image_Draw(enemyImg, 1300, 470, 300, 400, 255);
+	CP_Image_Draw(enemyImg[frame], 1300, 470, 250, 350, 255);
 	//player image
 	CP_Image_Draw(playerImg, 400, 470, 270, 370, 255);
 }

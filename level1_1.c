@@ -11,7 +11,6 @@
 #include <stdlib.h>
 
 //global variable
-//CP_Image background[4];
 float animateBG = 0;
 int j = 0;
 
@@ -23,11 +22,6 @@ void level1_1_Init(void){
 	hand = (CardType*)malloc(playerPtr->handSize * sizeof(CardType));
 	
 	drawCards(deck, playerPtr->handSize, 2,hand);
-
-	/*background[0] = CP_Image_Load("Assets/BG/Village BG/Village BG1.png");
-	background[1] = CP_Image_Load("Assets/BG/Village BG/Village BG2.png");
-	background[2] = CP_Image_Load("Assets/BG/Village BG/Village BG3.png");
-	background[3] = CP_Image_Load("Assets/BG/Village BG/Village BG4.png");*/
 	
 	//create enemy
 	enemy = mushRoom1();
@@ -43,8 +37,7 @@ void level1_1_Init(void){
 void level1_1_Update(void) {
 	
 	animateBG += CP_System_GetDt();
-	//CP_Image_Draw(background[j], 850, 600, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight() + 300, 255);
-	if (animateBG > 0.6f) {
+	if (animateBG >= 0.6f) {
 		j++;
 	}
 	if(j == 4){
@@ -92,5 +85,6 @@ void level1_1_Update(void) {
 }
 
 void level1_1_Exit(void) {
+	*turns = 1;
 	freeImg(1);
 }
