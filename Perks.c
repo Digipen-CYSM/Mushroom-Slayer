@@ -181,10 +181,14 @@ void selected_perks(Player* player, CardType* deck)
 	//random perk
 	if (perks_count_bool == 0 && perks_level_count >= 1)
 	{
+		unsigned int random_perks[3] = { 0 };
 		for (int i = 0; i < 3; i++)
 		{
-			unsigned int random_perks = CP_Random_RangeInt(1, 9);
-			perks[i] = generate_perk_image(random_perks, x_position);
+			random_perks[i] = CP_Random_RangeInt(1, 9);
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			perks[i] = generate_perk_image(random_perks[i], x_position);
 			x_position += 400;
 		}
 	}
@@ -224,12 +228,15 @@ void selected_perks(Player* player, CardType* deck)
 			{
 				generate_perks(selected_perk, player, deck);
 
-				//should move to create antidote switch case
-				//CardType ant = create_antitode_card();
-				//addCardToDeck(deck, player->deckSize + 1, ant);
-				//player->deckSize += 1;
-
-				CP_Engine_SetNextGameState(level1_1_Init, level1_1_Update, level1_1_Exit);
+				if (perks_level_count == 0)
+				{
+					condition = false;
+					CP_Engine_SetNextGameState(level1_1_Init, level1_1_Update, level1_1_Exit);
+				}
+				else
+				{
+					//next level
+				}
 			}
 		}
 	}
