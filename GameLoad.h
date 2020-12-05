@@ -2,7 +2,7 @@
 #include "Character.h"
 #include "Enemy.h"
 
-int round_count, frame_count;
+int frame_count;
 bool poison;
 
 void loadImg(int stage);

@@ -8,7 +8,7 @@
 #include "Perks.h"
 
 CP_Image confirmButton, backGround[10], enemyImg[10], healthImg, playerImg, poison_effect[2];
-
+int round_count = 0;
 
 void loadImg(int stage) {
 	//load confirm button image
@@ -145,10 +145,10 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 					}
 					else if (poison == false)
 					{
-						round_count++;
+						(round_count)++;
 					}
 
-					if (round_count % 3 == 0 && round_count != 0)
+					if ((round_count) % 3 == 0 && (round_count) != 0)
 					{
 						poison = true;
 					}

@@ -31,7 +31,7 @@ CardType create_antitode_card(void)
 CardType enhance_attack_card(void)
 {
 	CardType cards;
-	cards.type = 'a';
+	cards.type = 'E';
 	cards.ret = 2;
 	cards.imgSrc = "Assets/cards/attack_e.png";
 	cards.mana = 1;
@@ -42,13 +42,13 @@ CardType enhance_dmg_card(void)
 {
 	CardType cards;
 	cards.type = 'e';
-	cards.multiplier = 2;
+	cards.multiplier = 3;
 	cards.imgSrc = "Assets/cards/power_up.png";
 	cards.mana = 1;
 	return cards;
 }
 
-void generate_perks(unsigned int type, Player* player, CardType* hand)
+void generate_perks(unsigned int type, Player* player, CardType* deck)
 {
 	switch(type)
 	{
@@ -81,17 +81,25 @@ void generate_perks(unsigned int type, Player* player, CardType* hand)
 		case 7:
 			//Antidote card
 			player->deckSize += 1;
-			addCardToDeck(hand, player->deckSize, create_antitode_card());
+			addCardToDeck(deck, player->deckSize, create_antitode_card());
 			break;
 		case 8:
 			//Enhance attack card
-			player->deckSize += 1;
-			addCardToDeck(hand, player->deckSize, enhance_attack_card());
+			//player->deckSize += 1;
+			//addCardToDeck(deck, player->deckSize, enhance_attack_card());
+			for (int i = 0; i < 10; i++)
+			{
+				if (deck[i].type == 'a')
+				{
+					deck[i].ret = 2;
+					deck[i].imgSrc = "Assets/cards/attack_e.png";
+				}
+			}
 			break;
 		case 9:
 			//x2 attack for every attack card
 			player->deckSize += 1;
-			addCardToDeck(hand, player->deckSize, enhance_dmg_card());
+			addCardToDeck(deck, player->deckSize, enhance_dmg_card());
 			break;
 		default:
 			break;
@@ -173,7 +181,7 @@ void load_perks_images()
 	perks_image[5] = CP_Image_Load("Assets/perks/heal_10.png");
 	perks_image[6] = CP_Image_Load("Assets/perks/add_antidote.png");
 	perks_image[7] = CP_Image_Load("Assets/perks/enhance_attack.png");
-	perks_image[8] = CP_Image_Load("Assets/perks/x2_attack.png");
+	perks_image[8] = CP_Image_Load("Assets/perks/x3_attack.png");
 }
 
 void free_perks_images()

@@ -14,6 +14,7 @@
 int timeCheck = 0;
 float gameStartTime = 0;
 
+
 void Game_Init(void)
 {
 	memset(handCheck, 0, sizeof(int) * 5);
@@ -27,7 +28,6 @@ void Game_Init(void)
 	perks_count_bool = 1;
 	perks_level_count = 0;
 	frame_count = 0;
-	round_count = 0;
 
 	//load bg, char, enemy src
 	loadImg(0);
@@ -109,18 +109,17 @@ void Game_Update(void)
 	handsCollision(selectedCount, handCheckP, playerPtr, hand);
 
 	//draw hand src
-	drawDeck(deck, playerPtr->deckSize);
+	//drawDeck(deck, playerPtr->deckSize);
 	if ((int)time > 30000) {
 		drawHandSrc(handCheckP, selectedCount, playerPtr->handSize);
 	}
 	else {
 		drawHandAnimation(hand, time,playerPtr->handSize);
 	}
-	char print[100];
-	CP_Settings_TextSize(80);
-
-	sprintf_s(print, 100, "%4f", time);
-	CP_Font_DrawText(print, 830, 100);
+	//char print[100];
+	//CP_Settings_TextSize(80);
+	//sprintf_s(print, 100, "%4f", time);
+	//CP_Font_DrawText(print, 830, 100);
 
 	//confirm button logic
 	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);
