@@ -1,5 +1,5 @@
 #include "cprocessing.h"
-#include "game.h"
+#include "tutorial.h"
 
 float animateButtons = 0;
 int i;
@@ -37,7 +37,7 @@ void main_menu_update(void)
 					i++;
 				}
 				CP_Image_Draw(buttonsStart[i], 850, 450, 300, 150, 255);
-				CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
+				CP_Engine_SetNextGameState(tutorial_init, tutorial_update, tutorial_exit);
 				
 			}
 		}
