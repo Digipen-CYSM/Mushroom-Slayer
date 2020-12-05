@@ -24,6 +24,4 @@ void defenceCard(int defence, Player* player);
 void handuCollision(CardType* hand, Player* player, int* handCheckP);
 void handsCollision(int selectedCount, int* handCheckP, Player* player, CardType* hand);
 void addCardToDeck(CardType* deckp, int deckSize, CardType card);
-void drawHandAnimation(CardType* handPtr, float time,int handSize);
-//CardType* deckPtr;
-//CardType* handPtr;
+void drawHandAnimation(CardType* handPtr, int frame,int handSize);

@@ -11,8 +11,7 @@
 #include <stdlib.h>
 
 //global variable
-int timeCheck = 0;
-float gameStartTime = 0;
+int frameCheck = 0, drawAnimationCheck = 0, frameCount = 0 ,frame = 0, turnAnimationCheck = 0;
 
 void Game_Init(void)
 {
@@ -55,17 +54,13 @@ void Game_Init(void)
 
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
-
-	//inialize game start timer
-	gameStartTime = CP_System_GetMillis();
 	
 }
 
 
 void Game_Update(void)
 {	
-	time += CP_System_GetMillis() - gameStartTime;
-	//animation for card draw
+	frame += 1;
 
 	//draw background, char, enemy
 	drawBg(0);	
@@ -78,12 +73,8 @@ void Game_Update(void)
 	//draw enemy hp
 	drawHealthSrcE(enemy);
 
-
 	int selectedCount = 0;
 	int pressed = 0;
-	
-	//unselected hand collision
-	handuCollision(hand, playerPtr, handCheckP);
 
 	//count selected cards
 	for (int i = 0; i < 5; i++) {
@@ -91,32 +82,61 @@ void Game_Update(void)
 			selectedCount += 1;
 		}
 	}
-	
+
 	//draw cfm button
 	if (selectedCount > 0) {
 		drawConfrim();
 		pressed = 1;
 	}
 
-	//selected hand collision
-	handsCollision(selectedCount, handCheckP, playerPtr, hand);
+	if (drawAnimationCheck != 1 && turnAnimationCheck != 1) {
+		//unselected hand collision
+		handuCollision(hand, playerPtr, handCheckP);
 
-	//draw hand src
-	drawDeck(deck, playerPtr->deckSize);
-	if ((int)time > 30000) {
-		drawHandSrc(handCheckP, selectedCount, playerPtr->handSize);
+		//selected hand collision
+		handsCollision(selectedCount, handCheckP, playerPtr, hand);
 	}
-	else {
-		drawHandAnimation(hand, time,playerPtr->handSize);
-	}
+
 	char print[100];
 	CP_Settings_TextSize(80);
-
-	sprintf_s(print, 100, "%4f", time);
+	sprintf_s(print, 100, "%d", frame);
 	CP_Font_DrawText(print, 830, 100);
 
 	//confirm button logic
-	confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);
+	frameCheck = confirmPressed(handCheckP, hand, playerPtr, enemyPtr, handSize, deck, pressed, turns);
+
+	if (frameCheck) {
+		frameCount = frame;
+		turnAnimationCheck = 1;
+	}
+
+	if (turnAnimationCheck) {
+		turnAnimation(playerPtr, enemyPtr, frame - frameCount, handCheckP, hand, selectedCount);
+		if (frame - frameCount> selectedCount*30) {
+			drawCards(deck, playerPtr->handSize, 0, hand);
+			frame = frameCount;
+			drawAnimationCheck = 1;
+			turnAnimationCheck = 0;
+		}
+	}
+
+	//drawDeck(deck, playerPtr->deckSize);
+
+	//animation for drawing hand
+	if (frame < 30) {
+		drawHandAnimation(hand, frame, playerPtr->handSize);
+	}
+	else if (drawAnimationCheck) {
+		drawHandAnimation(hand, frame-frameCount, playerPtr->handSize);
+		if (frame - frameCount > 30) {
+			drawAnimationCheck = 0;
+		}
+	}
+	else {
+		drawHandSrc(handCheckP, selectedCount, playerPtr->handSize);
+	}
+
+
 
 	if (enemyPtr->health <= 0)
 	{

@@ -6,7 +6,7 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Perks.h"
-CP_Image confirmButton, backGround[10], enemyImg, healthImg, playerImg;
+CP_Image confirmButton, backGround[10], enemyImg, healthImg, playerImg, damageA, defenceA;
 
 
 void loadImg(int stage) {
@@ -25,8 +25,11 @@ void loadImg(int stage) {
 	
 	//load enemy img
 	enemyImg = CP_Image_Load("Assets/enemy/ms1.png");
-
 	playerImg = CP_Image_Load("Assets/character/Character.png");
+
+	//load effects img
+	damageA = CP_Image_Load("Assets/effects/damage_effect.png");
+	defenceA = CP_Image_Load("Assets/effects/shield_effect.png");
 }
 
 void freeImg(int stage) {
@@ -67,7 +70,7 @@ void drawEnemyCard(int* turns) {
 		CP_Image_Draw(CP_Image_Load("Assets/cards/attack1.png"), 1550, 470, 150, 230, 255);
 	}
 }
-void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize, CardType* deck, int pressed, int* turns) {
+int confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy, int handSize, CardType* deck, int pressed, int* turns) {
 	if (pressed == 1) {
 		if (CP_Input_GetMouseX() >= 750 && CP_Input_GetMouseX() <= 950 && CP_Input_GetMouseY() >= 75 && CP_Input_GetMouseY() <= 125) {
 			if (CP_Input_MouseClicked()) {
@@ -82,10 +85,10 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 						}
 						else
 						{
-							handCheck[i] = 0;
+							//handCheck[i] = 0;
 							break;
 						}
-						handCheck[i] = 0;
+						//handCheck[i] = 0;
 						
 						
 					}
@@ -93,7 +96,7 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 				player->mana = player->oMana;
 				attackCard(enemy, damage);
 				defenceCard(defence, player);
-				drawCards(deck, handSize, 0,hand);
+				//drawCards(deck, handSize, 0,hand);
 				
 				if (*turns % 3 == 0) {
 					enemyAttack(player, 3);
@@ -106,9 +109,37 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 				//player->defence = 0;
 				*turns = *turns + 1;
 				(void)pressed;
+				return 1;
 			}
 			
 		}		
 		//pressed = 0;
 	}
+	return 0;
+}
+
+void turnAnimation(Player* player, Enemy* enemy,int frame, int* handCheckPtr, CardType* hand, int selectedCount) {
+	for (int i = 0; i < selectedCount; i++) {
+		for (int j = 0; j < player->handSize; j++) {
+			if (handCheckPtr[j] == 1 && frame < 30) {
+				//do animation
+				if (hand[j].type == 'a') {
+					//CP_Image_Draw(damageA, 0, 750, 150, 230, 255);
+				}
+				else if (hand[j].type == 'd') {
+					int alphaV = 0;
+					if (frame < 30) {
+						alphaV += (int)((float)frame / 30.00f * 255.00f);
+					}
+					CP_Image_Draw(defenceA, 400, 470, 400, 400, alphaV);
+				}
+				if (frame == 29) {
+					handCheckPtr[j] = 0;
+				}
+				
+				break;
+			}
+		}
+	}
+	
 }
