@@ -5,6 +5,7 @@
 #include "Character.h"
 CP_Image healthSrc;
 CP_Image defenceSrc;
+CP_Image poison_source;
 CP_Image manaSrc[10];
 char manaStr2[10];
 
@@ -26,6 +27,7 @@ Player createCharacter(void)
 void hpAndManaLoad(void) {
 	healthSrc = CP_Image_Load("Assets/hpnshield/hp.png");
 	defenceSrc = CP_Image_Load("Assets/hpnshield/shield.png");
+	poison_source = CP_Image_Load("Assets/poison/poisondmg.png");
 	for (int i = 0; i < 10; i++) {
 		char str[100] = "Assets/manaBar/mana";
 		int manaStr = 48+i;
@@ -74,6 +76,21 @@ void drawDefenceSrc(Player player) {
 		CP_Image_Draw(defenceSrc, defenceWidth, defenceHeight, 40, 40, 255);
 		defenceWidth += 40;
 	}
+}
+
+void draw_poison_status(Player player)
+{
+	float poison_Height;
+	if (player.health <= 10) {
+		poison_Height = 120;
+	}
+	else if (player.health <= 20) {
+		poison_Height = 165;
+	}
+	else {
+		poison_Height = 210;
+	}
+	CP_Image_Draw(poison_source, 30, poison_Height, 40, 40, 255);
 }
 
 void drawManaSrc(Player player) {

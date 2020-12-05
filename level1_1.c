@@ -91,6 +91,7 @@ void level1_1_Update(void) {
 	if (poison == true)
 	{
 		draw_poison_effect();
+		draw_poison_status(player);
 	}
 
 	if (playerPtr->health <= 0)

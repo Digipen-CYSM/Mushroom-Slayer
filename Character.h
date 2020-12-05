@@ -16,6 +16,7 @@ Player createCharacter(void);
 void hpAndManaLoad(void);
 void drawHealthSrc(Player player);
 void drawManaSrc(Player player);
+void draw_poison_status(Player player);
 void drawDefenceSrc(Player player);
 void takeDamage(Player* player, int damage);
 
