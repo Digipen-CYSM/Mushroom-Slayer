@@ -27,6 +27,7 @@ void Game_Init(void)
 	perks_count_bool = 1;
 	perks_level_count = 0;
 	frame_count = 0;
+	round_count = 0;
 
 	//load bg, char, enemy src
 	loadImg(0);

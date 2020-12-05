@@ -22,7 +22,8 @@ void level1_1_Init(void){
 	perks_count_bool = 1;
 	perks_level_count = 1;
 	frame_count = 0;
-	
+	round_count = 0;
+
 	hand = (CardType*)malloc(playerPtr->handSize * sizeof(CardType));
 	
 	drawCards(deck, playerPtr->handSize, 2,hand);

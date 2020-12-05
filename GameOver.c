@@ -16,7 +16,8 @@ void game_over_update(void)
 	CP_Image_Draw(CP_Image_Load("Assets/mainMenu/exitButton.png"), 850, 750, 300, 150, 255);
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
-		CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+		//CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+		CP_Engine_Terminate();
 	}
 	if (CP_Input_GetMouseX() >= 700 && CP_Input_GetMouseX() <= 1000)
 	{
@@ -24,7 +25,8 @@ void game_over_update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+				//CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+				CP_Engine_Terminate();
 			}
 		}
 	}
@@ -39,7 +41,8 @@ void victory_update(void)
 	CP_Image_Draw(CP_Image_Load("Assets/mainMenu/exitButton.png"), 850, 750, 300, 150, 255);
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
-		CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+		//CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+		CP_Engine_Terminate();
 	}
 	if (CP_Input_GetMouseX() >= 700 && CP_Input_GetMouseX() <= 1000)
 	{
@@ -47,7 +50,8 @@ void victory_update(void)
 		{
 			if (CP_Input_MouseClicked())
 			{
-				CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+				//CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);
+				CP_Engine_Terminate();
 			}
 		}
 	}
