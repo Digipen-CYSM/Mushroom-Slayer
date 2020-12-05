@@ -18,6 +18,10 @@ void level1_1_Init(void){
 	//load bg, char, enemy src
 	loadImg(1);
 	free(hand);
+	perks_loading_count = 30;
+	perks_count_bool = 1;
+	perks_level_count = 1;
+	frame_count = 0;
 	
 	hand = (CardType*)malloc(playerPtr->handSize * sizeof(CardType));
 	
@@ -36,6 +40,7 @@ void level1_1_Init(void){
 
 void level1_1_Update(void) {
 	
+	frame_count++;
 	animateBG += CP_System_GetDt();
 	if (animateBG >= 0.6f) {
 		j++;
@@ -81,6 +86,23 @@ void level1_1_Update(void) {
 	if (enemyPtr->health <= 0)
 	{
 		CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
+	}
+
+	if (poison == true)
+	{
+		draw_poison_effect();
+	}
+
+	if (playerPtr->health <= 0)
+	{
+		if (playerPtr->life > 1)
+		{
+			playerPtr->health = 5;
+		}
+		else
+		{
+			CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
+		}
 	}
 }
 

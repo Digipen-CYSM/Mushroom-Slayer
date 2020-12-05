@@ -14,6 +14,7 @@ int position = 0;
 unsigned int perks[3] = { 0 };
 unsigned int random_perks[3] = { 0 };
 unsigned int selected_perk = 0;
+CP_Image perks_image[9];
 
 
 
@@ -21,7 +22,7 @@ CardType create_antitode_card(void)
 {
 	CardType cards;
 	cards.type = 'p';
-	cards.poison = 0;
+	cards.poison = false;
 	cards.imgSrc = "Assets/cards/antidote.png";
 	cards.mana = 2;
 	return cards;
@@ -54,10 +55,12 @@ void generate_perks(unsigned int type, Player* player, CardType* hand)
 		case 1:
 			//+1 Max Mana
 			player->oMana += 1;
+			player->mana += 1;
 			break;
 		case 2:
 			//+2 Max Mana
 			player->oMana += 2;
+			player->mana += 2;
 			break;
 		case 3:
 			//Revive once (add 1 life)
@@ -101,39 +104,39 @@ unsigned int generate_perk_image(unsigned int type, float x)
 	{
 		case 1:
 			//+1 Max Mana
-			CP_Image_Draw(CP_Image_Load("Assets/perks/1_max_mana.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[0], x, 400, 300, 450, 255);
 			break;
 		case 2:
 			//+2 Max Mana
-			CP_Image_Draw(CP_Image_Load("Assets/perks/1_max_mana.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[1], x, 400, 300, 450, 255);
 			break;
 		case 3:
 			//Revive once (add 1 life)
-			CP_Image_Draw(CP_Image_Load("Assets/perks/revive.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[2], x, 400, 300, 450, 255);
 			break;
 		case 4:
 			//+1 card in hand size
-			CP_Image_Draw(CP_Image_Load("Assets/perks/extra_card.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[3], x, 400, 300, 450, 255);
 			break;
 		case 5:
 			//+5 heal
-			CP_Image_Draw(CP_Image_Load("Assets/perks/heal_5.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[4], x, 400, 300, 450, 255);
 			break;
 		case 6:
 			//+10 heal
-			CP_Image_Draw(CP_Image_Load("Assets/perks/heal_10.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[5], x, 400, 300, 450, 255);
 			break;
 		case 7:
 			//Antidote card
-			CP_Image_Draw(CP_Image_Load("Assets/perks/add_antidote.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[6], x, 400, 300, 450, 255);
 			break;
 		case 8:
 			//Enhance attack card
-			CP_Image_Draw(CP_Image_Load("Assets/perks/enhance_attack.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[7], x, 400, 300, 450, 255);
 			break;
 		case 9:
 			//x2 attack for every attack card
-			CP_Image_Draw(CP_Image_Load("Assets/perks/x2_attack.png"), x, 400, 300, 450, 255);
+			CP_Image_Draw(perks_image[8], x, 400, 300, 450, 255);
 			break;
 		default:
 			return 0;
@@ -160,9 +163,25 @@ void load_perks()
 	}
 }
 
+void load_perks_images()
+{
+	perks_image[0] = CP_Image_Load("Assets/perks/1_max_mana.png");
+	perks_image[1] = CP_Image_Load("Assets/perks/2_max_mana.png");
+	perks_image[2] = CP_Image_Load("Assets/perks/revive.png");
+	perks_image[3] = CP_Image_Load("Assets/perks/extra_card.png");
+	perks_image[4] = CP_Image_Load("Assets/perks/heal_5.png");
+	perks_image[5] = CP_Image_Load("Assets/perks/heal_10.png");
+	perks_image[6] = CP_Image_Load("Assets/perks/add_antidote.png");
+	perks_image[7] = CP_Image_Load("Assets/perks/enhance_attack.png");
+	perks_image[8] = CP_Image_Load("Assets/perks/x2_attack.png");
+}
+
 void free_perks_images()
 {
-
+	for (int i = 0; i < 9; ++i)
+	{
+		CP_Image_Free(&perks_image[i]);
+	}
 }
 
 void clear_perks()
@@ -251,7 +270,7 @@ void selected_perks(Player* player, CardType* deck)
 				else
 				{
 					//next level
-					CP_Engine_SetNextGameState(level1_1_Init, level1_1_Update, level1_1_Exit);
+					CP_Engine_SetNextGameState(game_over_init, victory_update, game_over_exit);
 				}
 			}
 		}

@@ -7,7 +7,7 @@
 #include "Enemy.h"
 #include "Perks.h"
 
-CP_Image confirmButton, backGround[10], enemyImg[10], healthImg, playerImg;
+CP_Image confirmButton, backGround[10], enemyImg[10], healthImg, playerImg, poison_effect[2];
 
 
 void loadImg(int stage) {
@@ -50,6 +50,8 @@ void loadImg(int stage) {
 	}
 
 	playerImg = CP_Image_Load("Assets/character/Character.png");
+	poison_effect[0] = CP_Image_Load("Assets/effects/poison/poison1.png");
+	poison_effect[1] = CP_Image_Load("Assets/effects/poison/poison2.png");
 }
 
 void freeImg(int stage) {
@@ -65,7 +67,24 @@ void freeImg(int stage) {
 		}
 	}
 	CP_Image_Free(&playerImg);
+	CP_Image_Free(&poison_effect[0]);
+	CP_Image_Free(&poison_effect[1]);
+}
 
+void draw_poison_effect()
+{
+	if(frame_count <= 30)
+	{
+		CP_Image_Draw(poison_effect[0], 380, 450, 300, 400, 255);
+	}
+	else if(frame_count > 30 && frame_count <= 60)
+	{
+		CP_Image_Draw(poison_effect[1], 380, 450, 300, 400, 255);
+	}
+	else
+	{
+		frame_count = 0;
+	}
 }
 
 void drawBg(int frame) {
@@ -120,19 +139,18 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 				damage = damage * multiplier;
 				if (perks_level_count >= 1)
 				{
-					if (round_count % 3 == 0)
+					if (poison == true)
 					{
-						poison = true;
+						playerPtr->health -= 1;
 					}
-
-					if (poison == false)
+					else if (poison == false)
 					{
 						round_count++;
 					}
-					else
-					{
-						damage += 1;
 
+					if (round_count % 3 == 0 && round_count != 0)
+					{
+						poison = true;
 					}
 				}
 				

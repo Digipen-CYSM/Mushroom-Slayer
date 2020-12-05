@@ -26,9 +26,13 @@ void Game_Init(void)
 	perks_loading_count = 30;
 	perks_count_bool = 1;
 	perks_level_count = 0;
+	frame_count = 0;
 
 	//load bg, char, enemy src
 	loadImg(0);
+
+	//load perks image
+	load_perks_images();
 
 	//create character
 	player = createCharacter();
@@ -66,6 +70,7 @@ void Game_Init(void)
 void Game_Update(void)
 {	
 	time += CP_System_GetMillis() - gameStartTime;
+	frame_count++;
 	//animation for card draw
 
 	//draw background, char, enemy
@@ -124,10 +129,23 @@ void Game_Update(void)
 		selected_perks(playerPtr, deck);
 	}
 	
+	if (playerPtr->health <= 0)
+	{
+		if (playerPtr->life > 1)
+		{
+			playerPtr->health = 5;
+		}
+		else
+		{
+			CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
+		}
+	}
+	
 	
 }
 
 void Game_Exit(void) {
 	*turns = 1;
 	freeImg(0);
+	free_perks_images();
 }
