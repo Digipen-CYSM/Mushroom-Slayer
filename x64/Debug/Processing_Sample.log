@@ -1,5 +1,16 @@
-﻿  Perks.c
+﻿  Cards.c
+  Character.c
+  digipenload.c
+  Enemy.c
+  game.c
+  GameLoad.c
+  GameOver.c
+  level1_1.c
+  main.c
+  MainMenu.c
+  Perks.c
+  tutorial.c
   Processing_Sample.vcxproj -> D:\GitHub\SIT-GAM100\Mushroom-Slayer\x64\Debug\Mushroom Slayer.exe
   1 File(s) copied
   1 File(s) copied
-  150 File(s) copied
+  151 File(s) copied

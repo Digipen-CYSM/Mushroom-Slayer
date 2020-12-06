@@ -152,7 +152,7 @@ unsigned int generate_perk_image(unsigned int type, float x)
 	return type;
 }
 
-void load_perks()
+void load_perks(void)
 {
 	if (perks_loading_count >= 1)
 	{
@@ -171,7 +171,7 @@ void load_perks()
 	}
 }
 
-void load_perks_images()
+void load_perks_images(void)
 {
 	perks_image[0] = CP_Image_Load("Assets/perks/1_max_mana.png");
 	perks_image[1] = CP_Image_Load("Assets/perks/2_max_mana.png");
@@ -184,7 +184,7 @@ void load_perks_images()
 	perks_image[8] = CP_Image_Load("Assets/perks/x3_attack.png");
 }
 
-void free_perks_images()
+void free_perks_images(void)
 {
 	for (int i = 0; i < 9; ++i)
 	{
@@ -192,9 +192,10 @@ void free_perks_images()
 	}
 }
 
-void clear_perks()
+void clear_perks(void)
 {
-
+	condition = 0;
+	selected = 0;
 }
 
 void selected_perks(Player* player, CardType* deck)

@@ -17,11 +17,13 @@ int j = 0;
 void level1_1_Init(void){
 	//load bg, char, enemy src
 	loadImg(1);
+	load_perks_images();
 	free(hand);
 	perks_loading_count = 30;
 	perks_count_bool = 1;
 	perks_level_count = 1;
 	frame_count = 0;
+	playerPtr->defence = 0;
 
 	hand = (CardType*)malloc(playerPtr->handSize * sizeof(CardType));
 	
@@ -77,7 +79,7 @@ void level1_1_Update(void) {
 		drawConfrim();
 		pressed = 1;
 	}
-	drawDeck(deck, playerPtr->deckSize);
+	//drawDeck(deck, playerPtr->deckSize);
 	//selected hand collision
 	handsCollision(selectedCount, handCheckP, playerPtr, hand);
 	drawHandSrc(handCheckP, selectedCount, playerPtr->handSize);
@@ -85,6 +87,7 @@ void level1_1_Update(void) {
 
 	if (enemyPtr->health <= 0)
 	{
+		//selected_perks(playerPtr, deck);
 		CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
 	}
 
@@ -110,4 +113,6 @@ void level1_1_Update(void) {
 void level1_1_Exit(void) {
 	*turns = 1;
 	freeImg(1);
+	clear_perks();
+	free_perks_images();
 }
