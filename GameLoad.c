@@ -10,6 +10,7 @@
 CP_Image confirmButton, backGround[10], enemyImg[10], healthImg, playerImg, poison_effect[2];
 int round_count = 0;
 
+//Shawn, Marcus, YiJian, Camie
 void loadImg(int stage) {
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");

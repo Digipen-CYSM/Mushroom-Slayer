@@ -9,7 +9,7 @@ CP_Image poison_source;
 CP_Image manaSrc[10];
 char manaStr2[10];
 
-
+//Marcus
 Player createCharacter(void) 
 {
 	Player player1;

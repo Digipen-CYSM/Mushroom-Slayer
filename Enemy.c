@@ -1,10 +1,13 @@
 #include "cprocessing.h"
 #include "Character.h"
 CP_Image healthSrcE;
+
+//Marcus
 typedef struct Enemy {
 	int health;	
 } Enemy;
 
+//Marcus
 Enemy mushRoomT(void)
 {
 	Enemy mushroom;
@@ -12,6 +15,7 @@ Enemy mushRoomT(void)
 	return mushroom;
 }
 
+//Marcus
 Enemy mushRoom1(void)
 {
 	Enemy mushroom;
@@ -41,7 +45,7 @@ void drawHealthSrcE(Enemy enemy) {
 	}
 }
 
-//enemy move here
+//Marcus
 void enemyAttack(Player* player, int damage) {
 	if (player->defence < damage) {
 		player->health -= damage - player->defence;

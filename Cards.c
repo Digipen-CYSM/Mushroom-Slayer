@@ -11,27 +11,30 @@ int rCheck, deckSize;
 unsigned int random_no;
 CP_Image* deckSrc;
 
-void createAttackCard(CardType* cards) {//parameter for value and mana
+//Marcus
+void createAttackCard(CardType* cards) {
 	cards->type = 'a';
 	cards->ret = 1;
 	cards->imgSrc = "Assets/cards/attack1.png";
 	cards->mana = 1;
 }
 
-void createDefenceCard(CardType* cards) {//parameter for value and mana
+//Marcus
+void createDefenceCard(CardType* cards) {
 	cards->type = 'd';
 	cards->ret = 2;
 	cards->mana = 1;
 	cards->imgSrc = "Assets/cards/defence1.png";
 }
 
+//Marcus
 void attackCard(Enemy* enemy,int damage) {
 	enemy->health -= damage;
 }
 
+//Marcus
 void defenceCard(int defence, Player* player) {
 	player->defence += defence;
-	/*return player->defence;*/
 }
 
 //generate the deck and create pointer pointing to the deck
@@ -48,6 +51,7 @@ CardType* generateDeck(CardType* deckPtr) {
 	}
 	return deckPtr;
 }
+
 //draw a new set of cards and put it into handRng and handPtr
 void drawCards(CardType* deckp,int numCards,int fCheck,CardType* handPtr) {
 	//handSize = numCards;
