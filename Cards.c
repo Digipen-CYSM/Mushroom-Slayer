@@ -16,13 +16,13 @@
 //
 // Copyright © 2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
-#include "cprocessing.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include "cprocessing.h"
 #include "Cards.h"
 #include "Enemy.h"
 #include "Character.h"
-#include <math.h>
 
 int* handRng;
 int rCheck, deckSize;

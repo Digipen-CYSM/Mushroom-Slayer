@@ -166,7 +166,7 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 						(round_count)++;
 					}
 
-					if ((round_count) % 3 == 0 && (round_count) != 0)
+					if ((round_count) % 2 == 0 && (round_count) != 0)
 					{
 						poison = true;
 					}

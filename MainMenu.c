@@ -1,7 +1,9 @@
 //---------------------------------------------------------
 // file:	MainMenu.c
 // author:	Ho Yan Ying, Camie
+//			Zhuo Yijian
 // email:	y.ho@digipen.edu
+//			Zhuo Yijian
 //
 // brief:	draw image for main menu
 //			start button to go into game, 
@@ -14,10 +16,11 @@
 //---------------------------------------------------------
 #include "cprocessing.h"
 #include "tutorial.h"
+#include "credits.h"
 
 float animateButtons = 0;
 int i;
-CP_Image buttonsStart[5], buttonsExit[5];
+CP_Image buttonsStart[5], buttonsExit[5], buttons_credits[5];
 void main_menu_init(void)
 {
 	i = 0;
@@ -34,13 +37,21 @@ void main_menu_init(void)
 	buttonsExit[2] = CP_Image_Load("Assets/menubuttons/exit/exit3.png");
 	buttonsExit[3] = CP_Image_Load("Assets/menubuttons/exit/exit4.png");
 	buttonsExit[4] = CP_Image_Load("Assets/menubuttons/exit/exit5.png");
+	buttons_credits[0] = CP_Image_Load("Assets/menubuttons/credits/credits1.png");
+	buttons_credits[1] = CP_Image_Load("Assets/menubuttons/credits/credits2.png");
+	buttons_credits[2] = CP_Image_Load("Assets/menubuttons/credits/credits3.png");
+	buttons_credits[3] = CP_Image_Load("Assets/menubuttons/credits/credits4.png");
+	buttons_credits[4] = CP_Image_Load("Assets/menubuttons/credits/credits5.png");
 }
 
 void main_menu_update(void)
 {
 	CP_Image_Draw(buttonsStart[0], 850, 450, 300, 150, 255);
-	CP_Image_Draw(buttonsExit[0], 850, 650, 300, 150, 255);
+	CP_Image_Draw(buttonsExit[0], 850, 600, 300, 150, 255);
+	CP_Image_Draw(buttons_credits[0], 850, 750, 300, 150, 255);
 	animateButtons += CP_System_GetDt();
+
+	//start button
 	if (CP_Input_GetMouseX() >= 700 && CP_Input_GetMouseX() <= 1000)
 	{
 		if (CP_Input_GetMouseY() >= 375 && CP_Input_GetMouseY() <= 525)
@@ -56,17 +67,35 @@ void main_menu_update(void)
 			}
 		}
 	}
+
+	//exit button
 	if (CP_Input_GetMouseX() >= 700 && CP_Input_GetMouseX() <= 1000)
 	{
-		if (CP_Input_GetMouseY() >= 575 && CP_Input_GetMouseY() <= 725)
+		if (CP_Input_GetMouseY() >= 525 && CP_Input_GetMouseY() <= 675)
 		{
 			if (CP_Input_MouseClicked())
 			{
 				if (animateButtons >= 0.6f) {
 					i++;
 				}
-				CP_Image_Draw(buttonsExit[i], 850, 650, 300, 150, 255);
+				CP_Image_Draw(buttonsExit[i], 850, 600, 300, 150, 255);
 				CP_Engine_Terminate();
+			}
+		}
+	}
+
+	//credits
+	if (CP_Input_GetMouseX() >= 700 && CP_Input_GetMouseX() <= 1000)
+	{
+		if (CP_Input_GetMouseY() >= 675 && CP_Input_GetMouseY() <= 825)
+		{
+			if (CP_Input_MouseClicked())
+			{
+				if (animateButtons >= 0.6f) {
+					i++;
+				}
+				CP_Image_Draw(buttons_credits[i], 850, 750, 300, 150, 255);
+				CP_Engine_SetNextGameState(Credit_Init, Credit_Update, Credit_Exit);
 			}
 		}
 	}
@@ -74,5 +103,7 @@ void main_menu_update(void)
 
 void main_menu_exit(void)
 {
-
+	CP_Image_Free(buttonsStart);
+	CP_Image_Free(buttonsExit);
+	CP_Image_Free(buttons_credits);
 }

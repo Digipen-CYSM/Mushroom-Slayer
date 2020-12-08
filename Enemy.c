@@ -26,7 +26,7 @@ typedef struct Enemy {
 Enemy mushRoomT(void)
 {
 	Enemy mushroom;
-	mushroom.health = 5;
+	mushroom.health = 10;
 	return mushroom;
 }
 
@@ -34,7 +34,7 @@ Enemy mushRoomT(void)
 Enemy mushRoom1(void)
 {
 	Enemy mushroom;
-	mushroom.health = 10;
+	mushroom.health = 30;
 	return mushroom;
 }
 
@@ -45,20 +45,24 @@ void hpLoadE(void) {
 
 //Done By: Chia Shi Bo
 void drawHealthSrcE(Enemy enemy) {
-	float eHealthWidth = 1670;
+	float eHealthWidth = 1710;
 	for (int i = 0; i < enemy.health; i++) {
-		if (i == 10) {
+		eHealthWidth -= 40;
+		if (i == 10 || i == 20) {
 			eHealthWidth = 1670;
 		}
-		if (i < 10) {
+		if (i < 10) 
+		{
 			CP_Image_Draw(healthSrcE, eHealthWidth, 30, 40, 40, 255);
 		}
-		else {
+		else if ( i > 9 && i < 20) 
+		{
 			CP_Image_Draw(healthSrcE, eHealthWidth, 75, 40, 40, 255);
 		}
-
-		eHealthWidth -= 40;
-
+		else if (i > 19)
+		{
+			CP_Image_Draw(healthSrcE, eHealthWidth, 120, 40, 40, 255);
+		}
 	}
 }
 

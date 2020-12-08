@@ -73,9 +73,7 @@ void drawHealthSrc(Player player) {
 		else {
 			CP_Image_Draw(healthSrc, pHealthWidth, 120, 40, 40, 255);
 		}
-		
 		pHealthWidth += 40;
-
 	}
 }
 
