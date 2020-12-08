@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	Perks.c
+// author:	Yijian
+// email:	yijian.zhuo@digipen.edu
+//
+// brief:	contains function for perks
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>
 #include "cprocessing.h"
@@ -11,13 +23,13 @@
 
 bool condition = 0, selected = 0;
 int position = 0;
-unsigned int perks[3] = { 0 };
+unsigned int fixed_perks[3] = { 0 };
 unsigned int random_perks[3] = { 0 };
 unsigned int selected_perk = 0;
 CP_Image perks_image[9];
 
 
-
+//Create antitode card
 CardType create_antitode_card(void)
 {
 	CardType cards;
@@ -28,6 +40,7 @@ CardType create_antitode_card(void)
 	return cards;
 }
 
+//Create enhance attack card
 CardType enhance_attack_card(void)
 {
 	CardType cards;
@@ -38,6 +51,7 @@ CardType enhance_attack_card(void)
 	return cards;
 }
 
+//Create enhance dmg card
 CardType enhance_dmg_card(void)
 {
 	CardType cards;
@@ -48,6 +62,7 @@ CardType enhance_dmg_card(void)
 	return cards;
 }
 
+//Generate the perks depends on what the player selected
 void generate_perks(unsigned int type, Player* player, CardType* deck)
 {
 	switch(type)
@@ -85,8 +100,6 @@ void generate_perks(unsigned int type, Player* player, CardType* deck)
 			break;
 		case 8:
 			//Enhance attack card
-			//player->deckSize += 1;
-			//addCardToDeck(deck, player->deckSize, enhance_attack_card());
 			for (int i = 0; i < 10; i++)
 			{
 				if (deck[i].type == 'a')
@@ -106,6 +119,7 @@ void generate_perks(unsigned int type, Player* player, CardType* deck)
 	}
 }
 
+//Draw the image for perks
 unsigned int generate_perk_image(unsigned int type, float x)
 {
 	switch (type)
@@ -152,6 +166,7 @@ unsigned int generate_perk_image(unsigned int type, float x)
 	return type;
 }
 
+//loading perks animation
 void load_perks(void)
 {
 	if (perks_loading_count >= 1)
@@ -171,6 +186,7 @@ void load_perks(void)
 	}
 }
 
+//load images for perks
 void load_perks_images(void)
 {
 	perks_image[0] = CP_Image_Load("Assets/perks/1_max_mana.png");
@@ -184,6 +200,7 @@ void load_perks_images(void)
 	perks_image[8] = CP_Image_Load("Assets/perks/x3_attack.png");
 }
 
+//free perks when round ended
 void free_perks_images(void)
 {
 	for (int i = 0; i < 9; ++i)
@@ -192,13 +209,15 @@ void free_perks_images(void)
 	}
 }
 
+//clear perks when selected perks
 void clear_perks(void)
 {
 	condition = 0;
 	selected = 0;
 }
 
-void selected_perks(Player* player, CardType* deck)
+//excute perks and be called by game function
+void excute_perks(Player* player, CardType* deck)
 {
 	const unsigned int level_1_perks[3] = {7, 8, 9};
 	float x_position = 450;
@@ -212,11 +231,12 @@ void selected_perks(Player* player, CardType* deck)
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			perks[i] = generate_perk_image(level_1_perks[i], x_position);
+			fixed_perks[i] = generate_perk_image(level_1_perks[i], x_position);
 			x_position += 400;
 		}
 	}
 
+	//generate random perks after tutorial rounds
 	if (perks_count_bool == 1 && perks_level_count >= 1)
 	{
 		for (int i = 0; i < 3; i++)
@@ -225,13 +245,13 @@ void selected_perks(Player* player, CardType* deck)
 		}
 	}
 
-	//random perk
+	//generate image for random perk
 	if (perks_count_bool == 0 && perks_level_count >= 1)
 	{
 		
 		for (int i = 0; i < 3; i++)
 		{
-			perks[i] = generate_perk_image(random_perks[i], x_position);
+			fixed_perks[i] = generate_perk_image(random_perks[i], x_position);
 			x_position += 400;
 		}
 	}
@@ -247,7 +267,7 @@ void selected_perks(Player* player, CardType* deck)
 			{
 				if (CP_Input_MouseClicked())
 				{
-					selected_perk = perks[i];
+					selected_perk = fixed_perks[i];
 					position = i;
 					condition = true;
 				}

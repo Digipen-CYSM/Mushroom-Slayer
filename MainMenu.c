@@ -1,3 +1,17 @@
+//---------------------------------------------------------
+// file:	MainMenu.c
+// author:	Ho Yan Ying, Camie
+// email:	y.ho@digipen.edu
+//
+// brief:	draw image for main menu
+//			start button to go into game, 
+//			exit button to terminate game
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include "tutorial.h"
 

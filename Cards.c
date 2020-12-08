@@ -1,3 +1,21 @@
+//---------------------------------------------------------
+// file:	game.c
+// author:	Chia Shi Bo
+//			Zhuo Yijian
+//			Marcus Chong
+//			Ho Yan Ying, Camie
+// email:	
+//			yijian.zhuo@digipen.edu
+//			youlongmarcus.c@digipen.edu
+//			y.ho@digipen.edu
+//
+// brief:	gameplay for tutorial round
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +29,7 @@ int rCheck, deckSize;
 unsigned int random_no;
 CP_Image* deckSrc;
 
-//Marcus
+//Done By: Marcus
 void createAttackCard(CardType* cards) {
 	cards->type = 'a';
 	cards->ret = 1;
@@ -19,7 +37,7 @@ void createAttackCard(CardType* cards) {
 	cards->mana = 1;
 }
 
-//Marcus
+//Done By: Marcus
 void createDefenceCard(CardType* cards) {
 	cards->type = 'd';
 	cards->ret = 2;
@@ -27,16 +45,17 @@ void createDefenceCard(CardType* cards) {
 	cards->imgSrc = "Assets/cards/defence1.png";
 }
 
-//Marcus
+//Done By: Marcus
 void attackCard(Enemy* enemy,int damage) {
 	enemy->health -= damage;
 }
 
-//Marcus
+//Done By: Marcus
 void defenceCard(int defence, Player* player) {
 	player->defence += defence;
 }
 
+//Done By: Chia Shi Bo
 //generate the deck and create pointer pointing to the deck
 CardType* generateDeck(CardType* deckPtr) {
 	deckSize = 10;
@@ -52,16 +71,14 @@ CardType* generateDeck(CardType* deckPtr) {
 	return deckPtr;
 }
 
+//Done By: Camie
 //draw a new set of cards and put it into handRng and handPtr
 void drawCards(CardType* deckp,int numCards,int fCheck,CardType* handPtr) {
-	//handSize = numCards;
 	int j1;
 	
 	free(handRng);
-	//free(handPtr);
 	
 	handRng = (int*)malloc(numCards * sizeof(int));
-	//*handPtr = (CardType*)malloc(numCards * sizeof(CardType));
 
 	for (int i = 0; i < numCards; i++) {
 		if (i == 0) {
@@ -90,6 +107,7 @@ void drawCards(CardType* deckp,int numCards,int fCheck,CardType* handPtr) {
 	}
 }
 
+//Done by: Camie
 void loadDeckImg(CardType* deckp,int numDeck, int nCheck) {
 	if (nCheck == 1) {
 		deckSrc = (CP_Image*)malloc(numDeck * sizeof(CP_Image));
@@ -103,11 +121,13 @@ void loadDeckImg(CardType* deckp,int numDeck, int nCheck) {
 	}
 }
 
+//Done by: Zhuo Yijian
 void addCardToDeck(CardType* deckp, int ndeckSize, CardType card) {
 	realloc(deckp, ndeckSize * sizeof(CardType));
 	deckp[ndeckSize-1] = card;
 }
 
+//Done by: Camie
 void drawHandSrc(int* handCheck,int selectedCount,int handSize) {
 	float cardWidth = 495, cardWidthS = 350;
 	for (int i = 0; i < handSize; i++) {		
@@ -122,13 +142,8 @@ void drawHandSrc(int* handCheck,int selectedCount,int handSize) {
 	}
 }
 
+//Done by: Camie
 void drawHandAnimation(CardType* handPtr,float time,int handSize) {
-	//for (int i = 0; i < handSize; i++) {
-	//double cardWidth = (495+i*135) * (double)time / 4000;
-	//	if (time < 4000 + i * 3000) {
-	//		CP_Image_Draw(deckSrc[handRng[i]], (float)cardWidth, 750, 150, 230, 255);
-	//	}
-	//}
 	if (time < 6000) {
 		CP_Image_Draw(deckSrc[handRng[0]], (float)(495 * (double)time / 6000), 750, 150, 230, 255);
 	}
@@ -160,13 +175,9 @@ void drawHandAnimation(CardType* handPtr,float time,int handSize) {
 	if (time > 30000) {
 		CP_Image_Draw(deckSrc[handRng[4]], 1035, 750, 150, 230, 255);
 	}
-	//CP_Image_Draw(deckSrc[handRng[1]], (630 * (double)time / 3400), 750, 150, 230, 255);
-	//CP_Image_Draw(deckSrc[handRng[2]], (765 * (double)time / 2800), 750, 150, 230, 255);
-	//CP_Image_Draw(deckSrc[handRng[3]], (900 * (double)time / 2200), 750, 150, 230, 255);
-	//CP_Image_Draw(deckSrc[handRng[4]], (1035 * (double)time / 1600), 750, 150, 230, 255);
-	
 }
 
+//Done by: Chia Shi bo
 void drawDeck(CardType* deck, int numDeck) {
 	float cardWidth = 100;
 	for (int i = 0; i < numDeck; i++) {
@@ -175,6 +186,7 @@ void drawDeck(CardType* deck, int numDeck) {
 	}
 }
 
+//Done by: Chia Shi Bo
 void handuCollision(CardType* hand,Player* player,int* handCheckP) {
 	float cardWidth = 420;	
 	for (int i = 0; i < 5; i++) {
@@ -197,16 +209,15 @@ void handuCollision(CardType* hand,Player* player,int* handCheckP) {
 	}
 }
 
+//Done by: Chia Shi bo
 void handsCollision(int selectedCount,int* handCheckP,Player* player,CardType* hand) {
 	float cardWidthS = 350;
 	int nCheck;
-	//click on selected card and bring down
 	if (selectedCount > 0) {
 		for (int i = 0; i < selectedCount; i++) {
 			if (CP_Input_GetMouseX() >= 1000 / (float)(selectedCount + 1) + cardWidthS - 100 && CP_Input_GetMouseX() <= 1000 / (float)(selectedCount + 1) + cardWidthS + 100) {
 				if (CP_Input_GetMouseY() >= 150 && CP_Input_GetMouseY() <= 450) {
 					if (CP_Input_MouseClicked()) {
-						//mana, selected count, handCheck
 						nCheck = 0;
 						for (int j = 0; j < 5; j++) {
 							if (handCheckP[j] == 1 && nCheck == i) {

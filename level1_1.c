@@ -1,3 +1,19 @@
+//---------------------------------------------------------
+// file:	level1_1.c
+// author:	Chia Shi Bo
+//			Zhuo Yijian
+//			Marcus Chong
+// email:	
+//			yijian.zhuo@digipen.edu
+//			youlongmarcus.c@digipen.edu
+//
+// brief:	gameplay for level 1_1.
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include "game.h"
 #include "Cards.h"
@@ -15,7 +31,6 @@ float animateBG = 0;
 int j = 0;
 
 void level1_1_Init(void){
-	//load bg, char, enemy src
 	loadImg(1);
 	load_perks_images();
 	free(hand);
@@ -87,7 +102,7 @@ void level1_1_Update(void) {
 
 	if (enemyPtr->health <= 0)
 	{
-		//selected_perks(playerPtr, deck);
+		//excute_perks(playerPtr, deck);
 		CP_Engine_SetNextGameState(game_over_init, game_over_update, game_over_exit);
 	}
 

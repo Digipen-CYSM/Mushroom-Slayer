@@ -1,13 +1,28 @@
+//---------------------------------------------------------
+// file:	Enemy.c
+// author:	Marcus Chong
+//			Chia Shi Bo
+//
+// email:	youlongmarcus.c@digipen.edu
+//			
+//
+// brief:	functions for enemy
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include "Character.h"
 CP_Image healthSrcE;
 
-//Marcus
+//Done By: Marcus
 typedef struct Enemy {
 	int health;	
 } Enemy;
 
-//Marcus
+//Done By: Marcus
 Enemy mushRoomT(void)
 {
 	Enemy mushroom;
@@ -15,7 +30,7 @@ Enemy mushRoomT(void)
 	return mushroom;
 }
 
-//Marcus
+//Done By: Marcus
 Enemy mushRoom1(void)
 {
 	Enemy mushroom;
@@ -23,10 +38,12 @@ Enemy mushRoom1(void)
 	return mushroom;
 }
 
+//Done By : Marcus
 void hpLoadE(void) {
 	healthSrcE = CP_Image_Load("Assets/hpnshield/hp.png");
 }
 
+//Done By: Chia Shi Bo
 void drawHealthSrcE(Enemy enemy) {
 	float eHealthWidth = 1670;
 	for (int i = 0; i < enemy.health; i++) {
@@ -45,7 +62,7 @@ void drawHealthSrcE(Enemy enemy) {
 	}
 }
 
-//Marcus
+//Done By: Marcus
 void enemyAttack(Player* player, int damage) {
 	if (player->defence < damage) {
 		player->health -= damage - player->defence;

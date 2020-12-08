@@ -1,3 +1,21 @@
+//---------------------------------------------------------
+// file:	game.c
+// author:	Chia Shi Bo
+//			Zhuo Yijian
+//			Marcus Chong
+//			Ho Yan Ying, Camie
+// email:	
+//			yijian.zhuo@digipen.edu
+//			youlongmarcus.c@digipen.edu
+//			y.ho@digipen.edu
+//
+// brief:	gameplay for tutorial round
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include "game.h"
 #include "Cards.h"
@@ -126,7 +144,7 @@ void Game_Update(void)
 
 	if (enemyPtr->health <= 0)
 	{
-		selected_perks(playerPtr, deck);
+		excute_perks(playerPtr, deck);
 	}
 	
 	if (playerPtr->health <= 0)

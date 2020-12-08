@@ -1,3 +1,21 @@
+//---------------------------------------------------------
+// file:	level1_1.c
+// author:	Chia Shi Bo
+//			Zhuo Yijian
+//			Marcus Chong
+//			Ho Yan Ying, Camie
+// email:	
+//			yijian.zhuo@digipen.edu
+//			youlongmarcus.c@digipen.edu
+//			y.ho@digipen.edu
+//
+// brief:	functions for animation and gameplay
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include <string.h>
 #include <stdio.h>
@@ -10,7 +28,6 @@
 CP_Image confirmButton, backGround[10], enemyImg[10], healthImg, playerImg, poison_effect[2];
 int round_count = 0;
 
-//Shawn, Marcus, YiJian, Camie
 void loadImg(int stage) {
 	//load confirm button image
 	confirmButton = CP_Image_Load("Assets/confirmButton1.png");
@@ -167,9 +184,6 @@ void confirmPressed(int* handCheck, CardType* hand, Player* player, Enemy* enemy
 					enemyAttack(player, 1);
 				}
 
-				
-				
-				//after marcus done animation uncomment
 				//player->defence = 0;
 				*turns = *turns + 1;
 				(void)pressed;

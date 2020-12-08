@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	game.c
+// author:	Ho Yan Ying, Camie
+//			
+// email:	y.ho@digipen.edu
+//
+// brief:	starting screen of digipen logo
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include "MainMenu.h"
 int fade;
@@ -17,7 +30,6 @@ void digipenload_update(void)
 		fade += 3;
 	}
 
-	
 	if (fade >= 255)
 	{
 		CP_Engine_SetNextGameState(main_menu_init, main_menu_update, main_menu_exit);

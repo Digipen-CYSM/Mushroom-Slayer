@@ -1,3 +1,20 @@
+//---------------------------------------------------------
+// file:	Character.c
+// author:	Chia Shi Bo
+//			Zhuo Yijian
+//			Marcus Chong
+//
+// email:	
+//			yijian.zhuo@digipen.edu
+//			youlongmarcus.c@digipen.edu
+//
+// brief:	function for character
+//
+// documentation link:
+// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include <string.h>
 #include <stdio.h>
@@ -9,7 +26,7 @@ CP_Image poison_source;
 CP_Image manaSrc[10];
 char manaStr2[10];
 
-//Marcus
+//Done by: Marcus
 Player createCharacter(void) 
 {
 	Player player1;
@@ -24,6 +41,7 @@ Player createCharacter(void)
 	return player1;
 }
 
+//Done by: Chia Shi bo
 void hpAndManaLoad(void) {
 	healthSrc = CP_Image_Load("Assets/hpnshield/hp.png");
 	defenceSrc = CP_Image_Load("Assets/hpnshield/shield.png");
@@ -39,6 +57,7 @@ void hpAndManaLoad(void) {
 	
 }
 
+//Done by: Chia Shi bo
 void drawHealthSrc(Player player) {
 	float pHealthWidth = 30;
 	for (int i = 0; i < player.health; i++) {		
@@ -60,6 +79,7 @@ void drawHealthSrc(Player player) {
 	}
 }
 
+//Done by: Chia Shi bo
 void drawDefenceSrc(Player player) {
 	float defenceWidth, defenceHeight;
 	if (player.health <= 10) {
@@ -78,6 +98,7 @@ void drawDefenceSrc(Player player) {
 	}
 }
 
+//Done by: Yijian
 void draw_poison_status(Player player)
 {
 	float poison_Height;
@@ -93,10 +114,12 @@ void draw_poison_status(Player player)
 	CP_Image_Draw(poison_source, 30, poison_Height, 40, 40, 255);
 }
 
+//Done by: Chia Shi bo
 void drawManaSrc(Player player) {
 	CP_Image_Draw(manaSrc[player.mana], 50, 660, 50, 400, 255);
 }
 
+//Done by: Chia Shi bo
 void takeDamage(Player* player, int damage) {
 	if (player->defence < damage) {
 		player->defence = 0;
